@@ -1,4 +1,4 @@
-# KayKew
+# Capstone Project: KayKew
 
 ## Database Schema Design 
 
