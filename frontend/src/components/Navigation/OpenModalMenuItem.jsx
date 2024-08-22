@@ -1,6 +1,5 @@
 // frontend/src/components/Navigation/OpenModalMenuItem.jsx
 
-// import React from 'react';
 import { useModal } from '../../context/Modal';
 
 function OpenModalMenuItem({
@@ -18,7 +17,7 @@ function OpenModalMenuItem({
   };
 
   return (
-    <li onClick={onClick}>{itemText}</li>
+    <button onClick={onClick}>{itemText}</button>
   );
 }
 
