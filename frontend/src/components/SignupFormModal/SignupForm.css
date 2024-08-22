@@ -1,0 +1,57 @@
+/* frontend/src/components/SignupFormPage/SignupForm.css */
+
+/* General styles for the form container */
+.sign-up-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.sign-up-div h1 {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+}
+
+form label {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+form input {
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1em;
+}
+
+form button {
+  padding: 10px;
+  margin-top: 20px;
+  background-color: #ff5a5f;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+form button.disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+
+form .error-message {
+  color: #ff5a5f;
+  font-size: 0.9em;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
