@@ -68,10 +68,10 @@ export const deleteNotebook = (notebookId) => async (dispatch) => {
 };
 
 // Initial state
-// const initialState = {};
+const initialState = {};
 
 // Reducer
-const notebooksReducer = (state = {}, action) => {
+const notebooksReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_NOTEBOOKS: {
             const notebooks = {}

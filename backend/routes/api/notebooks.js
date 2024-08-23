@@ -13,7 +13,7 @@ router.get('/', requireAuth, async (req, res) => {
         },
     });
     res.json({notebooks});
-})
+});
 
 // Create a new notebook
 router.post('/', requireAuth, async (req, res) => {
@@ -26,6 +26,26 @@ router.post('/', requireAuth, async (req, res) => {
     } catch {
         return res.status(400).json({ errors: error.errors.map(e => e.message) });
     }
-})
+});
+
+// Delete a notebook by notebook id
+router.delete('/:id', requireAuth, async (req, res) => {
+    const notebookId = req.params.id;
+    const userId = req.user.id;
+
+    const notebook = await Notebook.findOne({
+        where: {
+            id: notebookId,
+            ownerId: userId,
+        },
+    });
+
+    if (!notebook) {
+        return res.status(404).json({ message: 'Notebook not found' });
+    }
+
+    await notebook.destroy();
+    return res.json({ message: 'Notebook successfully deleted' });
+});
 
 module.exports = router;
