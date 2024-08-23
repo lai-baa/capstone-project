@@ -6,17 +6,13 @@ function LandingPage () {
     const sessionUser = useSelector(state => state.session.user);
     const navigate = useNavigate();
 
-    const handleClick = () => {
-        navigate(`/notebooks`)
-    };
-
     return (
         <div className="home-container">
           {sessionUser ? (
             <div>
                 <h1>Welcome back, {sessionUser.firstName}!</h1>
-                <button onClick={() => handleClick()}>View notebooks</button>
-                <button>View tasks</button>
+                <button onClick={() => navigate(`/notebooks`)}>View notebooks</button>
+                <button onClick={() => navigate(`/tasks`)}>View tasks</button>
             </div>
           ) : (
             <>
