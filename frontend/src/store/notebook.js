@@ -4,6 +4,7 @@ import { csrfFetch } from './csrf';
 // Action types
 const GET_NOTEBOOKS = 'notebooks/GET_NOTEBOOKS';
 const CREATE_NOTEBOOK = 'notebooks/CREATE_NOTEBOOK';
+const DELETE_NOTEBOOK = 'notebooks/DELETE_NOTEBOOK';
 
 // Action creator
 const getAllNotebooks = (notebooks) => ({
@@ -14,7 +15,12 @@ const getAllNotebooks = (notebooks) => ({
 const addNotebook = (notebook) => ({
     type: CREATE_NOTEBOOK,
     notebook,
-})
+});
+
+const removeNotebook = (notebookId) => ({
+    type: DELETE_NOTEBOOK,
+    notebookId,
+});
 
 // Get notebooks of user thunk
 export const getNotebooks = () => async (dispatch) => {
@@ -47,22 +53,43 @@ export const createNotebook = (notebookData) => async (dispatch) => {
     }
 };
 
+// Delete notebook thunk
+export const deleteNotebook = (notebookId) => async (dispatch) => {
+    const response = await csrfFetch(`/api/notebooks/${notebookId}`, {
+        method: 'DELETE',
+    });
+
+    if (response.ok) {
+        dispatch(removeNotebook(notebookId));
+    } else {
+        const error = await response.json();
+        return error;
+    }
+};
+
 // Initial state
-const initialState = {};
+// const initialState = {};
 
 // Reducer
-const notebooksReducer = (state = initialState, action) => {
+const notebooksReducer = (state = {}, action) => {
     switch (action.type) {
-        case GET_NOTEBOOKS:
+        case GET_NOTEBOOKS: {
             const notebooks = {}
             action.notebooks.forEach(notebook => {
                 notebooks[notebook.id] = notebook
             })
             return {...notebooks}
-        case CREATE_NOTEBOOK: 
+        }
+        case CREATE_NOTEBOOK: {
             const newState = { ...state };
             newState[action.notebook.id] = action.notebook;
             return newState;
+        }
+        case DELETE_NOTEBOOK: {
+            const newState = { ...state };
+            delete newState[action.notebookId];
+            return newState;
+        }
         default:
             return state;
     }

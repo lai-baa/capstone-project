@@ -1,18 +1,21 @@
-// frontend/src/components/NotebooksList.js
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getNotebooks } from '../../store/notebook';
 import { useNavigate } from 'react-router-dom';
 import CreateNotebookModal from '../CreateNotebookModal/CreateNotebookModal';
 import { useModal } from '../../context/Modal';
+import { createSelector } from 'reselect';
+
+const selectNotebooks = createSelector(
+  state => state.notebooks,
+  notebooks => Object.values(notebooks)
+);
 
 const NotebooksList = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const notebooks = useSelector(state => Object.values(state.notebooks));
+    const notebooks = useSelector(selectNotebooks);
     const { setModalContent, setOnModalClose } = useModal();
-
-    // console.log('STATE >>>>>>>>>>>>>>>>>', state)
 
     useEffect(() => {
         dispatch(getNotebooks());
@@ -20,11 +23,11 @@ const NotebooksList = () => {
 
     const openCreateNotebookModal = () => {
         setOnModalClose(() => {});
-        setModalContent(<CreateNotebookModal/>);
+        setModalContent(<CreateNotebookModal />);
     };
 
     const handleClick = (notebook) => {
-        navigate(`/notebooks/${notebook.id}`)
+        navigate(`/notebooks/${notebook.id}`);
     };
 
     return (
