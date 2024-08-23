@@ -3,6 +3,7 @@ import { csrfFetch } from './csrf';
 
 // Action types
 const GET_NOTEBOOKS = 'notebooks/GET_NOTEBOOKS';
+const GET_ONE_NOTEBOOK = 'notebooks/GET_ONE_NOTEBOOK';
 const CREATE_NOTEBOOK = 'notebooks/CREATE_NOTEBOOK';
 const UPDATE_NOTEBOOK = 'notebooks/UPDATE_NOTEBOOK';
 const DELETE_NOTEBOOK = 'notebooks/DELETE_NOTEBOOK';
@@ -11,6 +12,11 @@ const DELETE_NOTEBOOK = 'notebooks/DELETE_NOTEBOOK';
 const getAllNotebooks = (notebooks) => ({
     type: GET_NOTEBOOKS,
     notebooks,
+});
+
+const getOneNotebookAction = (notebook) => ({
+    type: GET_ONE_NOTEBOOK,
+    notebook,
 });
 
 const addNotebook = (notebook) => ({
@@ -33,9 +39,22 @@ export const getNotebooks = () => async (dispatch) => {
     const response = await csrfFetch('/api/notebooks');
     if(response.ok){
         const data = await response.json();
-        console.log('NOTEBOOKS >>>>>>>>>>>>>>>>', data.notebooks)
+        // console.log('NOTEBOOKS >>>>>>>>>>>>>>>>', data.notebooks)
         dispatch(getAllNotebooks(data.notebooks));
         return data.notebooks;
+    } else {
+        const error = await response.json();
+        return error;
+    }
+};
+
+// Get notebook by notebook id thunk
+export const getOneNotebook = (notebookId) => async (dispatch) => {
+    const response = await csrfFetch(`/api/notebooks/${notebookId}`);
+    if (response.ok) {
+        const notebook = await response.json();
+        dispatch(getOneNotebookAction(notebook));
+        return notebook;
     } else {
         const error = await response.json();
         return error;
@@ -99,6 +118,9 @@ const notebooksReducer = (state = initialState, action) => {
                 notebooks[notebook.id] = notebook
             })
             return {...notebooks}
+        }
+        case GET_ONE_NOTEBOOK: {
+            return { ...state, [action.notebook.id]: action.notebook };
         }
         case CREATE_NOTEBOOK: {
             const newState = { ...state };

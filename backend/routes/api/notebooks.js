@@ -1,6 +1,6 @@
 // backend/routes/api/notebooks.js
 const express = require('express');
-const { Notebook } = require('../../db/models');
+const { Notebook, Note } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const router = express.Router();
 
@@ -15,6 +15,21 @@ router.get('/', requireAuth, async (req, res) => {
     res.json({notebooks});
 });
 
+// Get notebook details (notes) by notebook id
+router.get('/:id', requireAuth, async (req, res) => {
+    const { id } = req.params;
+    const notebook = await Notebook.findByPk(id, {
+        include: [{ model: Note }]
+    });
+
+    if (!notebook || notebook.ownerId !== req.user.id) {
+        return res.status(404).json({ message: 'Notebook not found or you do not have access.' });
+    };
+
+    // console.log('NOTES >>>>>>>>>', notebook.Notes);
+    res.json(notebook);
+});
+
 // Create a new notebook
 router.post('/', requireAuth, async (req, res) => {
     const { name, favorite } = req.body;
@@ -23,7 +38,7 @@ router.post('/', requireAuth, async (req, res) => {
     try {
         const notebook = await Notebook.create({ name, favorite, ownerId });
         return res.json(notebook);
-    } catch {
+    } catch(error) {
         return res.status(400).json({ errors: error.errors.map(e => e.message) });
     }
 });
