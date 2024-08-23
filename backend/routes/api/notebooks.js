@@ -28,6 +28,25 @@ router.post('/', requireAuth, async (req, res) => {
     }
 });
 
+// Edit a notebook by notebook id
+router.put("/:id", requireAuth, async(req, res) => {
+    const notebookId = req.params.id;
+    const { name, favorite } = req.body;
+    const userId = req.user.id;
+
+    const notebook = await Notebook.findByPk(notebookId);
+
+    if (!notebook || notebook.ownerId !== userId) {
+        return res.status(404).json({ error: "Notebook not found" });
+    }
+
+    notebook.name = name;
+    notebook.favorite = favorite;
+    await notebook.save();
+
+    return res.json(notebook);
+});
+
 // Delete a notebook by notebook id
 router.delete('/:id', requireAuth, async (req, res) => {
     const notebookId = req.params.id;

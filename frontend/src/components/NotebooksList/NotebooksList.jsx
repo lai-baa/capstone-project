@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getNotebooks } from '../../store/notebook';
 import { useNavigate } from 'react-router-dom';
 import CreateNotebookModal from '../CreateNotebookModal/CreateNotebookModal';
-import DeleteNotebookModal from '../DeleteNotebookModal/DeleteNotebookModaal';
+import EditNotebookModal from '../EditNotebook/EditNotebookModal';
+import DeleteNotebookModal from "../DeleteNotebookModal"
 import { useModal } from '../../context/Modal';
 import { createSelector } from 'reselect';
 
@@ -37,18 +38,28 @@ const NotebooksList = () => {
         );
     };
 
+    const openEditNotebookModal = (notebook) => {
+        setOnModalClose(() => {});
+        setModalContent(
+            <EditNotebookModal 
+                notebook={notebook} // Passing the notebook object here
+                closeModal={() => setModalContent(null)} // To ensure the modal closes properly
+            />
+        );
+    };
+
     return (
         <div>
             <h1>Your Notebooks</h1>
             <button onClick={openCreateNotebookModal}>Create a New Notebook</button>
             <ul>
                 {notebooks.map(notebook => (
-                    <div>
-                        <div key={notebook.id} id='notebook-div' onClick={() => handleClick(notebook)}>
+                    <div key={notebook.id}>
+                        <div id='notebook-div' onClick={() => handleClick(notebook)}>
                             <li>{notebook.name}</li>
                         </div>
                         <div>
-                            <button>Edit</button>
+                            <button onClick={() => openEditNotebookModal(notebook)}>Edit</button>
                             <button onClick={() => openDeleteNotebookModal(notebook.id)}>Delete</button>
                         </div>
                     </div>
