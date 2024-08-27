@@ -64,6 +64,7 @@ function NotebookDetails() {
         <div>
             <h1>{notebook.name}</h1>
             <button onClick={openCreateNoteModal}>Create a New Note</button>
+            <button onClick={() => navigate("/notebooks")}>Back to All Notebooks</button>
             {notes?.length ? (
                 <div>
                     {notes?.map(note => (

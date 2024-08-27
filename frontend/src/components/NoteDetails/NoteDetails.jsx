@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { getNoteDetails } from '../../store/note';
 
 function formatDate(dateString) {
@@ -13,6 +13,7 @@ function NoteDetails() {
     const { id } = useParams();
     const dispatch = useDispatch();
     const note = useSelector(state => state.notes[id]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(getNoteDetails(id));
@@ -22,6 +23,7 @@ function NoteDetails() {
 
     return (
         <div>
+            <button onClick={() => navigate(`/notebooks/${note.notebookId}`)}>Back to Notes</button>
             <h1>{note.title}</h1>
             <p>{formatDate(note.updatedAt)}</p>
             <p>{note.description}</p>
