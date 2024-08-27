@@ -50,6 +50,11 @@ export const getNotebooks = () => async (dispatch) => {
 
 // Get notebook by notebook id thunk
 export const getOneNotebook = (notebookId) => async (dispatch) => {
+    if (!notebookId) {
+        console.error('Notebook ID is undefined');
+        return;
+    }
+
     const response = await csrfFetch(`/api/notebooks/${notebookId}`);
     if (response.ok) {
         const notebook = await response.json();
@@ -100,6 +105,7 @@ export const deleteNotebook = (notebookId) => async (dispatch) => {
 
     if (response.ok) {
         dispatch(removeNotebook(notebookId));
+        return { message: 'Note successfully deleted' };
     } else {
         const error = await response.json();
         return error;
@@ -120,7 +126,13 @@ const notebooksReducer = (state = initialState, action) => {
             return {...notebooks}
         }
         case GET_ONE_NOTEBOOK: {
-            return { ...state, [action.notebook.id]: action.notebook };
+            const notebook = action.notebook;
+            const newState = { ...state };
+            newState[notebook.id] = {
+                ...notebook,
+                Notes: notebook.Notes || []
+            };
+            return newState;
         }
         case CREATE_NOTEBOOK: {
             const newState = { ...state };

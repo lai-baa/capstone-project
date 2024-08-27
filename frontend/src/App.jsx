@@ -6,6 +6,7 @@ import * as sessionActions from './store/session';
 import LandingPage from './components/LandingPage';
 import NotebooksList from './components/NotebooksList';
 import NotebookDetails from './components/NotebookDetails/NotebookDetails';
+import NoteDetails from './components/NoteDetails/NoteDetails';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: '/notebooks/:id',
         element: <NotebookDetails />
+      },
+      {
+        path: '/notes/:id',
+        element: <NoteDetails />
       }
     ]
   }
