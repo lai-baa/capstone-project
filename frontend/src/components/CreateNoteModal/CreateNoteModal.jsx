@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { createNote } from '../../store/note';
 import { useModal } from '../../context/Modal';
@@ -8,19 +8,35 @@ function CreateNoteModal({ notebookId }) {
     const dispatch = useDispatch();
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [errors, setErrors] = useState([]);
+    const [errors, setErrors] = useState({});
     const { closeModal } = useModal();
+
+    useEffect(() => {
+        const newErrors = {};
+        if (!title) {
+            newErrors.title = 'Title is required.';
+        } else if (title.length > 100) {
+            newErrors.title = 'Title must be less than 100 characters.';
+        }
+        if (!description) {
+            newErrors.description = 'Description is required.';
+        }
+        setErrors(newErrors);
+    }, [title, description]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const newNote = { title, description, notebookId };
-        const result = await dispatch(createNote(newNote));
+        if (Object.keys(errors).length === 0) {
+            const newNote = { title, description, notebookId };
 
-        if (result.errors) {
-            setErrors(result.errors);
-        } else {
-            closeModal(); // Close the modal after successful creation
+            const result = await dispatch(createNote(newNote));
+
+            if (result.errors) {
+                setErrors(result.errors);
+            } else {
+                closeModal();
+            }
         }
     };
 
@@ -28,11 +44,6 @@ function CreateNoteModal({ notebookId }) {
         <div className="create-note-modal">
             <h2>Create New Note</h2>
             <form onSubmit={handleSubmit}>
-                <ul>
-                    {errors.map((error, idx) => (
-                        <li key={idx} className="error-message">{error}</li>
-                    ))}
-                </ul>
                 <label>
                     Title
                     <input
@@ -42,6 +53,7 @@ function CreateNoteModal({ notebookId }) {
                         required
                     />
                 </label>
+                {errors.title && <p className="error-message">{errors.title}</p>}
                 <label>
                     Description
                     <textarea
@@ -50,6 +62,7 @@ function CreateNoteModal({ notebookId }) {
                         required
                     />
                 </label>
+                {errors.description && <p className="error-message">{errors.description}</p>}
                 <button type="submit">Create Note</button>
                 <button type="button" onClick={closeModal}>Cancel</button>
             </form>

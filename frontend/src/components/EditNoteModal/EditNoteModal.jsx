@@ -9,21 +9,34 @@ const EditNoteModal = ({ note }) => {
     const { closeModal } = useModal();
     const [title, setTitle] = useState(note.title);
     const [description, setDescription] = useState(note.description);
-    const [errors, setErrors] = useState([]);
+    const [errors, setErrors] = useState({});
+
+    useEffect(() => {
+        const newErrors = {};
+        if (!title) {
+            newErrors.title = 'Title is required.';
+        } else if (title.length > 100) {
+            newErrors.title = 'Title must be less than 100 characters.';
+        }
+        if (!description) {
+            newErrors.description = 'Description is required.';
+        }
+        setErrors(newErrors);
+    }, [title, description]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const updatedNote = {
-            ...note,
-            title,
-            description,
-        };
+        if (Object.keys(errors).length === 0) {
+            const updatedNote = { title, description };
 
-        const response = await dispatch(editNote(note.id, updatedNote));
+            const result = await dispatch(editNote(note.id, updatedNote));
 
-        if (response) {
-            closeModal();
+            if (result.errors) {
+                setErrors(result.errors);
+            } else {
+                closeModal();
+            }
         }
     };
 
@@ -31,11 +44,6 @@ const EditNoteModal = ({ note }) => {
         <div>
             <h2>Edit Note</h2>
             <form onSubmit={handleSubmit}>
-                <ul>
-                    {errors.map((error, idx) => (
-                        <li key={idx} style={{ color: 'red' }}>{error}</li>
-                    ))}
-                </ul>
                 <label>
                     Title
                     <input
@@ -45,6 +53,7 @@ const EditNoteModal = ({ note }) => {
                         required
                     />
                 </label>
+                {errors.title && <p className="error-message">{errors.title}</p>}
                 <label>
                     Description
                     <textarea
@@ -53,6 +62,7 @@ const EditNoteModal = ({ note }) => {
                         required
                     />
                 </label>
+                {errors.description && <p className="error-message">{errors.description}</p>}
                 <button type="submit">Save Changes</button>
                 <button type="button" onClick={closeModal}>Cancel</button>
             </form>
