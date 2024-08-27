@@ -2,7 +2,19 @@
 const express = require('express');
 const { Notebook, Note } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
+const { check } = require('express-validator');
+const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
+
+// Validation middleware for notebooks
+const validateNotebook = [
+    check('name')
+      .exists({ checkFalsy: true })
+      .withMessage('Notebook name is required.')
+      .isLength({ max: 50 })
+      .withMessage('Notebook name must be less than 50 characters.'),
+    handleValidationErrors
+];
 
 // Get all notebooks for logged in user
 router.get('/', requireAuth, async (req, res) => {
@@ -31,7 +43,7 @@ router.get('/:id', requireAuth, async (req, res) => {
 });
 
 // Create a new notebook
-router.post('/', requireAuth, async (req, res) => {
+router.post('/', requireAuth, validateNotebook, async (req, res) => {
     const { name, favorite } = req.body;
     const ownerId = req.user.id;
 
@@ -44,7 +56,7 @@ router.post('/', requireAuth, async (req, res) => {
 });
 
 // Edit a notebook by notebook id
-router.put("/:id", requireAuth, async(req, res) => {
+router.put("/:id", requireAuth, validateNotebook, async(req, res) => {
     const notebookId = req.params.id;
     const { name, favorite } = req.body;
     const userId = req.user.id;

@@ -1,24 +1,36 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { editNotebook } from '../../store/notebook';
 
 const EditNotebookModal = ({ notebook, closeModal }) => {
     const dispatch = useDispatch();
-    const [name, setName] = useState(notebook.name); // Prepopulate the notebook name
-    const [favorite, setFavorite] = useState(notebook.favorite); // Prepopulate the favorite status
-    const [errors, setErrors] = useState([]);
+    const [name, setName] = useState(notebook.name);
+    const [favorite, setFavorite] = useState(notebook.favorite);
+    const [errors, setErrors] = useState({});
+
+    useEffect(() => {
+        const newErrors = {};
+        if (!name) {
+            newErrors.name = 'Notebook name is required.';
+        } else if (name.length > 50) {
+            newErrors.name = 'Notebook name must be less than 50 characters.';
+        }
+        setErrors(newErrors);
+    }, [name]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const updatedNotebook = { name, favorite };
+        if (Object.keys(errors).length === 0) {
+            const updatedNotebook = { name, favorite };
 
-        const result = await dispatch(editNotebook(notebook.id, updatedNotebook));
+            const result = await dispatch(editNotebook(notebook.id, updatedNotebook));
 
-        if (result.errors) {
-            setErrors(result.errors);
-        } else {
-            closeModal(); // Close the modal after successful update
+            if (result.errors) {
+                setErrors(result.errors);
+            } else {
+                closeModal();
+            }
         }
     };
 
@@ -26,11 +38,6 @@ const EditNotebookModal = ({ notebook, closeModal }) => {
         <div className="edit-notebook-modal">
             <h2>Edit Notebook</h2>
             <form onSubmit={handleSubmit}>
-                <ul>
-                    {errors.map((error, idx) => (
-                        <li key={idx}>{error}</li>
-                    ))}
-                </ul>
                 <label>
                     Name
                     <input
@@ -40,6 +47,8 @@ const EditNotebookModal = ({ notebook, closeModal }) => {
                         required
                     />
                 </label>
+                {/* Display errors if they exist */}
+                {errors.name && <p className="error-message">{errors.name}</p>}
                 <label>
                     Favorite
                     <input

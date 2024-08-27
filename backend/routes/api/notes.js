@@ -1,7 +1,24 @@
 const express = require('express');
 const { Note } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
+const { check } = require('express-validator');
+const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
+
+// Validation middleware for notes
+const validateNote = [
+    check('title')
+      .exists({ checkFalsy: true })
+      .withMessage('Note title is required.')
+      .isLength({ max: 100 })
+      .withMessage('Note title must be less than 100 characters.'),
+    check('description')
+      .exists({ checkFalsy: true })
+      .withMessage('Note description is required.')
+      .isLength({ max: 1000 })
+      .withMessage('Note description must be less than 1000 characters.'),
+    handleValidationErrors
+];
 
 // Get all details for a note
 router.get('/:id', requireAuth, async(req, res) => {
@@ -21,7 +38,7 @@ router.get('/:id', requireAuth, async(req, res) => {
 
 
 // Create a new note for a notebook
-router.post('/', requireAuth, async (req, res) => {
+router.post('/', requireAuth, validateNote, async (req, res) => {
     const { title, description, notebookId } = req.body;
     const ownerId = req.user.id;
     console.log("Received data:", { title, description, notebookId });
@@ -41,7 +58,7 @@ router.post('/', requireAuth, async (req, res) => {
 });
 
 // Edit an existing note
-router.put('/:id', requireAuth, async(req, res) => {
+router.put('/:id', requireAuth, validateNote, async(req, res) => {
     const { id } = req.params;
     const { title, description } = req.body;
     const note = await Note.findByPk(id);

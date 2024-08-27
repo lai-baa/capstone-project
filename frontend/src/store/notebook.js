@@ -73,13 +73,13 @@ export const createNotebook = (notebookData) => async (dispatch) => {
         body: JSON.stringify(notebookData),
     })
 
-    if(response.ok) {
+    if (response.ok) {
         const data = await response.json();
         dispatch(addNotebook(data));
         return data;
     } else {
-        const error = await response.json();
-        return error;
+        const errorData = await response.json();
+        return errorData;
     }
 };
 
