@@ -88,14 +88,22 @@ router.delete('/:id', requireAuth, async (req, res) => {
             id: notebookId,
             ownerId: userId,
         },
+        include: [{ model: Note }]
     });
 
     if (!notebook) {
         return res.status(404).json({ message: 'Notebook not found' });
     }
 
+    await Note.destroy({
+        where: {
+            notebookId: notebook.id
+        }
+    });
+
     await notebook.destroy();
-    return res.json({ message: 'Notebook successfully deleted' });
+
+    return res.json({ message: 'Notebook and its notes successfully deleted' });
 });
 
 module.exports = router;

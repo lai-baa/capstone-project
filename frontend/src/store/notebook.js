@@ -105,7 +105,7 @@ export const deleteNotebook = (notebookId) => async (dispatch) => {
 
     if (response.ok) {
         dispatch(removeNotebook(notebookId));
-        return { message: 'Note successfully deleted' };
+        return { message: 'Notebook and its notes successfully deleted' };
     } else {
         const error = await response.json();
         return error;
