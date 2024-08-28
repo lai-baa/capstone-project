@@ -1,4 +1,3 @@
-import React from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteNote } from '../../store/note';
 import { useModal } from '../../context/Modal';

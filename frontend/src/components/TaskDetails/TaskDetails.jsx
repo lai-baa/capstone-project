@@ -3,6 +3,9 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getTaskDetails } from '../../store/task';
+import EditTaskModal from '../EditTaskModal/EditTaskModal';
+import DeleteTaskModal from '../DeleteTaskModal/DeleteTaskModal';
+import { useModal } from '../../context/Modal';
 
 function formatDate(dateString) {
     const date = new Date(dateString);
@@ -14,10 +17,26 @@ const TaskDetails = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const task = useSelector(state => state.tasks[id]);
+    const { setModalContent, setOnModalClose } = useModal();
 
     useEffect(() => {
         dispatch(getTaskDetails(id));
     }, [dispatch, id]);
+
+    const openEditTaskModal = (task) => {
+        if (!task) {
+          console.error('Task is undefined:', task);
+          return;
+        }
+      
+        setOnModalClose(() => {});
+        setModalContent(<EditTaskModal task={task} closeModal={() => setModalContent(null)} />);
+    };
+
+    const openDeleteTaskModal = (taskId) => {
+        setOnModalClose(() => {});
+        setModalContent(<DeleteTaskModal taskId={taskId} closeModal={() => setModalContent(null)} />);
+    };
 
     if (!task) return <p>Loading...</p>;
 
@@ -27,7 +46,7 @@ const TaskDetails = () => {
             <p>Due Date: {formatDate(task.dueDate)}</p>
             <p>Details: {task.description}</p>
             <p>Priority: {task.priority}</p>
-            <button>Edit</button>
+            <button onClick={() => openEditTaskModal(task)}>Edit</button>
             <button>Delete</button>
         </div>
     );

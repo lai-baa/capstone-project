@@ -2,21 +2,14 @@
 import { useDispatch } from 'react-redux';
 import { deleteTask } from '../../store/task';
 import { useModal } from '../../context/Modal';
-import { useNavigate } from 'react-router-dom';
 
-const DeleteTaskModal = ({ taskId, redirectToList = false }) => {
+const DeleteTaskModal = ({ taskId }) => {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
-  const navigate = useNavigate();
 
   const handleDelete = async () => {
-    const result = await dispatch(deleteTask(taskId));
-    if (result) {
-      closeModal();
-      if (redirectToList) {
-        navigate('/tasks'); // This should be inside router context
-      }
-    }
+    await dispatch(deleteTask(taskId));
+    closeModal();
   };
 
   return (

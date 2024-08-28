@@ -6,12 +6,18 @@ import CreateTaskModal from '../CreateTaskModal/CreateTaskModal';
 import EditTaskModal from '../EditTaskModal/EditTaskModal';
 import DeleteTaskModal from '../DeleteTaskModal/DeleteTaskModal';
 import { useModal } from '../../context/Modal';
+import { createSelector } from 'reselect';
+
+const selectTasks = createSelector(
+  state => state.tasks,
+  tasks => Object.values(tasks)
+);
 
 const TasksList = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { setModalContent, setOnModalClose } = useModal();
-    const tasks = useSelector((state) => Object.values(state.tasks));
+    const tasks = useSelector(selectTasks);
 
     useEffect(() => {
         dispatch(getAllTasks());
@@ -34,7 +40,7 @@ const TasksList = () => {
 
     const openDeleteTaskModal = (taskId) => {
         setOnModalClose(() => {});
-        setModalContent(<DeleteTaskModal taskId={taskId} redirectToList={true} />);
+        setModalContent(<DeleteTaskModal taskId={taskId} closeModal={() => setModalContent(null)} />);
     };
 
     if (!tasks.length) return <p>No tasks found.</p>;
