@@ -4,9 +4,10 @@ import { getNotebooks } from '../../store/notebook';
 import { useNavigate } from 'react-router-dom';
 import CreateNotebookModal from '../CreateNotebookModal/CreateNotebookModal';
 import EditNotebookModal from '../EditNotebook/EditNotebookModal';
-import DeleteNotebookModal from "../DeleteNotebookModal"
+import DeleteNotebookModal from "../DeleteNotebookModal";
 import { useModal } from '../../context/Modal';
 import { createSelector } from 'reselect';
+import './NotebooksList.css'; // Ensure this is imported
 
 const selectNotebooks = createSelector(
   state => state.notebooks,
@@ -32,35 +33,40 @@ const NotebooksList = () => {
         navigate(`/notebooks/${notebook.id}`);
     };
 
-    const openDeleteNotebookModal = (notebookId) => {
+    const openDeleteNotebookModal = (notebookId, e) => {
+        e.stopPropagation(); // Prevents the click event from bubbling up to the parent
         setModalContent(
             <DeleteNotebookModal notebookId={notebookId} closeModal={() => setModalContent(null)} />
         );
     };
 
-    const openEditNotebookModal = (notebook) => {
+    const openEditNotebookModal = (notebook, e) => {
+        e.stopPropagation(); // Prevents the click event from bubbling up to the parent
         setOnModalClose(() => {});
         setModalContent(
             <EditNotebookModal 
-                notebook={notebook} // Passing the notebook object here
-                closeModal={() => setModalContent(null)} // To ensure the modal closes properly
+                notebook={notebook}
+                closeModal={() => setModalContent(null)}
             />
         );
     };
 
     return (
-        <div>
-            <h1>Your Notebooks</h1>
-            <button onClick={openCreateNotebookModal}>Create a New Notebook</button>
-            <ul>
+        <div className="page-wrapper">
+            <div className="header-container">
+                <h1>Your Notebooks</h1>
+                <button onClick={openCreateNotebookModal}>Create a New Notebook</button>
+            </div>
+            <ul className="notebooks-container">
                 {notebooks.map(notebook => (
-                    <div key={notebook.id}>
-                        <div id='notebook-div' onClick={() => handleClick(notebook)}>
-                            <li>{notebook.name}</li>
+                    <div key={notebook.id} className="notebook-item" onClick={() => handleClick(notebook)}>
+                        <div id='notebook-div'>
+                            <li className='notebook-name'>{notebook.name}</li>
                         </div>
                         <div>
-                            <button onClick={() => openEditNotebookModal(notebook)}>Edit</button>
-                            <button onClick={() => openDeleteNotebookModal(notebook.id)}>Delete</button>
+                            {/* Pass the click event to prevent propagation */}
+                            <button onClick={(e) => openEditNotebookModal(notebook, e)}>Edit</button>
+                            <button onClick={(e) => openDeleteNotebookModal(notebook.id, e)}>Delete</button>
                         </div>
                     </div>
                 ))}
