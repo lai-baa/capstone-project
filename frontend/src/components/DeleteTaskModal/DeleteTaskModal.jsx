@@ -1,15 +1,17 @@
-// frontend/src/components/DeleteTaskModal/DeleteTaskModal.jsx
 import { useDispatch } from 'react-redux';
 import { deleteTask } from '../../store/task';
 import { useModal } from '../../context/Modal';
 
-const DeleteTaskModal = ({ taskId }) => {
+const DeleteTaskModal = ({ taskId, redirectAfterDelete }) => {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
 
   const handleDelete = async () => {
-    await dispatch(deleteTask(taskId));
-    closeModal();
+    const result = await dispatch(deleteTask(taskId));
+    if (result) {
+      closeModal(); 
+      if (redirectAfterDelete) redirectAfterDelete();
+    }
   };
 
   return (

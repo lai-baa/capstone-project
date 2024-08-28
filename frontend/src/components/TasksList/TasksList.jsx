@@ -7,6 +7,7 @@ import EditTaskModal from '../EditTaskModal/EditTaskModal';
 import DeleteTaskModal from '../DeleteTaskModal/DeleteTaskModal';
 import { useModal } from '../../context/Modal';
 import { createSelector } from 'reselect';
+import './TasksList.css';  // Import the new CSS file
 
 const selectTasks = createSelector(
   state => state.tasks,
@@ -28,7 +29,8 @@ const TasksList = () => {
         setModalContent(<CreateTaskModal />);
     };
 
-    const openEditTaskModal = (task) => {
+    const openEditTaskModal = (event, task) => {
+        event.stopPropagation(); // Prevents the click event from bubbling up to the parent
         if (!task) {
           console.error('Task is undefined:', task);
           return;
@@ -38,7 +40,8 @@ const TasksList = () => {
         setModalContent(<EditTaskModal task={task} closeModal={() => setModalContent(null)} />);
     };
 
-    const openDeleteTaskModal = (taskId) => {
+    const openDeleteTaskModal = (event, taskId) => {
+        event.stopPropagation(); // Prevents the click event from bubbling up to the parent
         setOnModalClose(() => {});
         setModalContent(<DeleteTaskModal taskId={taskId} closeModal={() => setModalContent(null)} />);
     };
@@ -46,18 +49,21 @@ const TasksList = () => {
     if (!tasks.length) return <p>No tasks found.</p>;
 
     return (
-        <div>
-            <h1>Your Tasks</h1>
-            <button onClick={() => openCreateTaskModal()}>Create a New Task</button>
-            <div>
+        <div className="page-wrapper">
+            <div className="header-container">
+                <h1>Your Tasks</h1>
+                <button onClick={openCreateTaskModal}>Create a New Task</button>
+            </div>
+            <div className="tasks-container">
                 {tasks.map(task => (
-                    <div key={task.id}>
-                        <div onClick={() => navigate(`/tasks/${task.id}`)}>
-                            <h2 key={task.id}>{task.title}</h2>
+                    <div key={task.id} className="task-item" onClick={() => navigate(`/tasks/${task.id}`)}>
+                        <div>
+                            <h2 className="task-title">{task.title}</h2>
                         </div>
                         <div>
-                            <button onClick={() => openEditTaskModal(task)}>Edit</button>
-                            <button onClick={() => openDeleteTaskModal(task.id)}>Delete</button>
+                            {/* Pass the click event to prevent propagation */}
+                            <button onClick={(event) => openEditTaskModal(event, task)}>Edit</button>
+                            <button onClick={(event) => openDeleteTaskModal(event, task.id)}>Delete</button>
                         </div>
                     </div>
                 ))}

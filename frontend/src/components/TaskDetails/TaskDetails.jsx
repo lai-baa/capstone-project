@@ -1,7 +1,6 @@
-// frontend/src/components/TaskDetails/TaskDetails.jsx
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom'; // Import useNavigate
 import { getTaskDetails } from '../../store/task';
 import EditTaskModal from '../EditTaskModal/EditTaskModal';
 import DeleteTaskModal from '../DeleteTaskModal/DeleteTaskModal';
@@ -16,6 +15,7 @@ function formatDate(dateString) {
 const TaskDetails = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
+    const navigate = useNavigate(); // Initialize useNavigate
     const task = useSelector(state => state.tasks[id]);
     const { setModalContent, setOnModalClose } = useModal();
 
@@ -28,14 +28,18 @@ const TaskDetails = () => {
           console.error('Task is undefined:', task);
           return;
         }
-      
+
         setOnModalClose(() => {});
         setModalContent(<EditTaskModal task={task} closeModal={() => setModalContent(null)} />);
     };
 
     const openDeleteTaskModal = (taskId) => {
-        setOnModalClose(() => {});
-        setModalContent(<DeleteTaskModal taskId={taskId} closeModal={() => setModalContent(null)} />);
+        setModalContent(
+            <DeleteTaskModal 
+                taskId={taskId} 
+                redirectAfterDelete={() => navigate('/tasks')} // Pass redirect function
+            />
+        );
     };
 
     if (!task) return <p>Loading...</p>;
@@ -47,7 +51,7 @@ const TaskDetails = () => {
             <p>Details: {task.description}</p>
             <p>Priority: {task.priority}</p>
             <button onClick={() => openEditTaskModal(task)}>Edit</button>
-            <button>Delete</button>
+            <button onClick={() => openDeleteTaskModal(task.id)}>Delete</button> {/* Updated delete button */}
         </div>
     );
 };

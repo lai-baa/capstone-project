@@ -11,10 +11,21 @@ const validateTask = [
       .withMessage('Task title is required.')
       .isLength({ max: 100 })
       .withMessage('Task title must be less than 100 characters.'),
+    check('description')
+      .exists({ checkFalsy: true })
+      .withMessage('Description is required.')
+      .isLength({ max: 500 })
+      .withMessage('Description must be less than 500 characters.'),
     check('dueDate')
-      .optional()
+      .exists({ checkFalsy: true })
+      .withMessage('Due date is required.')
       .isISO8601()
       .withMessage('Due date must be a valid date.'),
+      check('priority')
+      .exists({ checkFalsy: true })
+      .withMessage('Priority is required.')
+      .isIn(['low', 'medium', 'high'])
+      .withMessage('Priority must be Low, Medium, or High.'),
     handleValidationErrors
 ];
 

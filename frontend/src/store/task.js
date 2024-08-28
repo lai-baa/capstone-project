@@ -91,8 +91,8 @@ export const editTask = (taskId, taskData) => async (dispatch) => {
       dispatch(editTaskAction(task));
       return task;
     } else {
-      const errors = await response.json();
-      return { errors };
+      const error = await response.json();
+      return { errors: error.errors };
     }
 };
 
@@ -107,7 +107,7 @@ export const deleteTask = (taskId) => async (dispatch) => {
       return true;
     } else {
       const error = await response.json();
-      return error;
+      return { errors: error.errors };
     }
 };
 
