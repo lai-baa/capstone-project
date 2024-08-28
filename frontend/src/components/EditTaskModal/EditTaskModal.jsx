@@ -14,6 +14,12 @@ const EditTaskModal = ({ task, closeModal }) => {
   const [completed, setCompleted] = useState(task?.completed || false);
   const [errors, setErrors] = useState({});
 
+  // Get the current date in 'YYYY-MM-DD' format
+  const getCurrentDate = () => {
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+  };
+
   useEffect(() => {
     const newErrors = {};
     if (!title) {
@@ -84,6 +90,7 @@ const EditTaskModal = ({ task, closeModal }) => {
             type="date"
             value={dueDate}
             onChange={(e) => setDueDate(e.target.value)}
+            min={getCurrentDate()}  // Set min attribute to restrict past dates
             required
           />
         </label>

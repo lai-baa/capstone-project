@@ -7,7 +7,7 @@ import EditTaskModal from '../EditTaskModal/EditTaskModal';
 import DeleteTaskModal from '../DeleteTaskModal/DeleteTaskModal';
 import { useModal } from '../../context/Modal';
 import { createSelector } from 'reselect';
-import './TasksList.css';  // Import the new CSS file
+import './TasksList.css';
 
 const selectTasks = createSelector(
   state => state.tasks,
@@ -46,28 +46,30 @@ const TasksList = () => {
         setModalContent(<DeleteTaskModal taskId={taskId} closeModal={() => setModalContent(null)} />);
     };
 
-    if (!tasks.length) return <p>No tasks found.</p>;
-
     return (
         <div className="page-wrapper">
             <div className="header-container">
                 <h1>Your Tasks</h1>
                 <button onClick={openCreateTaskModal}>Create a New Task</button>
             </div>
-            <div className="tasks-container">
-                {tasks.map(task => (
-                    <div key={task.id} className="task-item" onClick={() => navigate(`/tasks/${task.id}`)}>
-                        <div>
-                            <h2 className="task-title">{task.title}</h2>
+            {tasks.length === 0 ? (
+                <p>You have no tasks. Create a task now!</p>
+            ) : (
+                <div className="tasks-container">
+                    {tasks.map(task => (
+                        <div key={task.id} className="task-item" onClick={() => navigate(`/tasks/${task.id}`)}>
+                            <div>
+                                <h2 className="task-title">{task.title}</h2>
+                            </div>
+                            <div>
+                                {/* Pass the click event to prevent propagation */}
+                                <button onClick={(event) => openEditTaskModal(event, task)}>Edit</button>
+                                <button onClick={(event) => openDeleteTaskModal(event, task.id)}>Delete</button>
+                            </div>
                         </div>
-                        <div>
-                            {/* Pass the click event to prevent propagation */}
-                            <button onClick={(event) => openEditTaskModal(event, task)}>Edit</button>
-                            <button onClick={(event) => openDeleteTaskModal(event, task.id)}>Delete</button>
-                        </div>
-                    </div>
-                ))}
-            </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };

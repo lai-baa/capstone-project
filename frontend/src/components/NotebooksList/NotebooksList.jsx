@@ -57,20 +57,24 @@ const NotebooksList = () => {
                 <h1>Your Notebooks</h1>
                 <button onClick={openCreateNotebookModal}>Create a New Notebook</button>
             </div>
-            <ul className="notebooks-container">
-                {notebooks.map(notebook => (
-                    <div key={notebook.id} className="notebook-item" onClick={() => handleClick(notebook)}>
-                        <div id='notebook-div'>
-                            <li className='notebook-name'>{notebook.name}</li>
+            {notebooks.length === 0 ? (
+                <p>You have no notebooks. Create a notebook now!</p>
+            ) : (
+                <ul className="notebooks-container">
+                    {notebooks.map(notebook => (
+                        <div key={notebook.id} className="notebook-item" onClick={() => handleClick(notebook)}>
+                            <div id='notebook-div'>
+                                <li className='notebook-name'>{notebook.name}</li>
+                            </div>
+                            <div>
+                                {/* Pass the click event to prevent propagation */}
+                                <button onClick={(e) => openEditNotebookModal(notebook, e)}>Edit</button>
+                                <button onClick={(e) => openDeleteNotebookModal(notebook.id, e)}>Delete</button>
+                            </div>
                         </div>
-                        <div>
-                            {/* Pass the click event to prevent propagation */}
-                            <button onClick={(e) => openEditNotebookModal(notebook, e)}>Edit</button>
-                            <button onClick={(e) => openDeleteNotebookModal(notebook.id, e)}>Delete</button>
-                        </div>
-                    </div>
-                ))}
-            </ul>
+                    ))}
+                </ul>
+            )}
         </div>
     );
 };

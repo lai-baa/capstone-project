@@ -15,6 +15,12 @@ const CreateTaskModal = () => {
   const [completed, setCompleted] = useState(false);
   const [errors, setErrors] = useState({});
 
+  // Get the current date in 'YYYY-MM-DD' format
+  const getCurrentDate = () => {
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+  };
+
   useEffect(() => {
     const newErrors = {};
     if (!title) {
@@ -85,6 +91,7 @@ const CreateTaskModal = () => {
             type="date"
             value={dueDate}
             onChange={(e) => setDueDate(e.target.value)}
+            min={getCurrentDate()}
             required
           />
         </label>

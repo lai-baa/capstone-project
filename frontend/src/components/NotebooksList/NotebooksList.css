@@ -48,6 +48,13 @@ button {
     margin-top: 10px;
 }
 
+.no-notebooks-message {
+    font-size: 16px;
+    color: #555;
+    text-align: center;
+    margin-top: 20px;
+}
+
 /* Media queries for responsive grid */
 @media (max-width: 1200px) {
     .notebooks-container {
