@@ -7,6 +7,8 @@ import LandingPage from './components/LandingPage';
 import NotebooksList from './components/NotebooksList';
 import NotebookDetails from './components/NotebookDetails/NotebookDetails';
 import NoteDetails from './components/NoteDetails/NoteDetails';
+import TasksList from './components/TasksList/TasksList';
+import TaskDetails from './components/TaskDetails/TaskDetails';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -45,6 +47,14 @@ const router = createBrowserRouter([
       {
         path: '/notes/:id',
         element: <NoteDetails />
+      },
+      {
+        path: '/tasks',
+        element: <TasksList />
+      },
+      {
+        path: '/tasks/:id',
+        element: <TaskDetails />
       }
     ]
   }

@@ -34,9 +34,13 @@ router.get('/:id', requireAuth, async (req, res) => {
         include: [{ model: Note }]
     });
 
-    if (!notebook || notebook.ownerId !== req.user.id) {
-        return res.status(404).json({ message: 'Notebook not found or you do not have access.' });
+    if (!notebook) {
+        return res.status(404).json({ message: 'Notebook not found.' });
     };
+
+    if (notebook.ownerId !== req.user.id) {
+        return res.status(404).json({ message: 'You do not have access to this notebook.' });
+    }
 
     // console.log('NOTES >>>>>>>>>', notebook.Notes);
     res.json(notebook);

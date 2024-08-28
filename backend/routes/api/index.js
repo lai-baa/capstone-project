@@ -5,6 +5,7 @@ const usersRouter = require('./users.js');
 
 const notebooksRouter = require('./notebooks.js');
 const notesRouter = require('./notes.js')
+const tasksRouter = require("./tasks.js")
 
 const { restoreUser } = require('../../utils/auth.js');
 
@@ -51,5 +52,6 @@ router.use('/users', usersRouter);
 
 router.use('/notebooks', notebooksRouter);
 router.use('/notes', notesRouter);
+router.use("/tasks", tasksRouter);
 
 module.exports = router;
