@@ -1,10 +1,9 @@
-// frontend/src/components/EditNoteModal/EditNoteModal.jsx
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { editNote } from '../../store/note';
 import { useModal } from '../../context/Modal';
 
-const EditNoteModal = ({ note }) => {
+const EditNoteModal = ({ note, onSuccess }) => {
     const dispatch = useDispatch();
     const { closeModal } = useModal();
     const [title, setTitle] = useState(note.title);
@@ -35,6 +34,7 @@ const EditNoteModal = ({ note }) => {
             if (result.errors) {
                 setErrors(result.errors);
             } else {
+                if (onSuccess) onSuccess();
                 closeModal();
             }
         }

@@ -7,7 +7,7 @@ import EditNotebookModal from '../EditNotebook/EditNotebookModal';
 import DeleteNotebookModal from "../DeleteNotebookModal";
 import { useModal } from '../../context/Modal';
 import { createSelector } from 'reselect';
-import './NotebooksList.css'; // Ensure this is imported
+import './NotebooksList.css';
 
 const selectNotebooks = createSelector(
   state => state.notebooks,

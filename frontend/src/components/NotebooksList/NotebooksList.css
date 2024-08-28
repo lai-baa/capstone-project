@@ -16,7 +16,7 @@
 /* Grid layout for notebooks */
 .notebooks-container {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, 1fr); /* Fixed 4 columns on larger screens */
     gap: 20px;
     margin-top: 10px;
 }
@@ -46,4 +46,23 @@
 
 button {
     margin-top: 10px;
+}
+
+/* Media queries for responsive grid */
+@media (max-width: 1200px) {
+    .notebooks-container {
+        grid-template-columns: repeat(3, 1fr); /* 3 columns for medium screens */
+    }
+}
+
+@media (max-width: 900px) {
+    .notebooks-container {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns for smaller screens */
+    }
+}
+
+@media (max-width: 600px) {
+    .notebooks-container {
+        grid-template-columns: 1fr; /* 1 column for mobile screens */
+    }
 }

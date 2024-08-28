@@ -6,6 +6,7 @@ import { useModal } from '../../context/Modal';
 import CreateNoteModal from '../CreateNoteModal/CreateNoteModal';
 import EditNoteModal from '../EditNoteModal/EditNoteModal';
 import DeleteNoteModal from '../DeleteNoteModal/DeleteNoteModal';
+import './NotebookDetails.css';
 
 function NotebookDetails() {
     const { id: notebookId } = useParams();
@@ -31,54 +32,54 @@ function NotebookDetails() {
         });
         setModalContent(<CreateNoteModal notebookId={notebookId} />);
     };
-    
-    const openEditNoteModal = (note) => {
-        if (!note.notebookId) {
-            console.error('Notebook ID is undefined in note:', note);
-            return;
-        }
-    
-        setOnModalClose(() => {
-            dispatch(getOneNotebook(note.notebookId));
-        });
-    
-        setModalContent(<EditNoteModal note={note} />);
+
+    const handleSuccess = () => {
+        dispatch(getOneNotebook(notebookId));
     };
 
-    const openDeleteNoteModal = (note) => {
-        if (!note.id) {
-            console.error('Note ID is undefined in note:', note);
-            return;
-        }
-    
+    const openEditNoteModal = (event, note) => {
+        event.stopPropagation(); // Prevent navigation
         setOnModalClose(() => {
-            dispatch(getOneNotebook(note.notebookId));
+            handleSuccess();
         });
-    
-        setModalContent(<DeleteNoteModal noteId={note.id} notebookId={note.notebookId} />);
+
+        setModalContent(<EditNoteModal note={note} closeModal={() => setModalContent(null)} onSuccess={handleSuccess} />);
+    };
+
+    const openDeleteNoteModal = (event, note) => {
+        event.stopPropagation(); // Prevent navigation
+        setOnModalClose(() => {
+            handleSuccess();
+        });
+
+        setModalContent(<DeleteNoteModal noteId={note.id} notebookId={note.notebookId} closeModal={() => setModalContent(null)} redirectAfterDelete={handleSuccess} />);
     };
 
     if (!notebook) return <p>Loading...</p>;
 
     return (
-        <div>
-            <h1>{notebook.name}</h1>
-            <button onClick={openCreateNoteModal}>Create a New Note</button>
-            <button onClick={() => navigate("/notebooks")}>Back to All Notebooks</button>
+        <div className="page-wrapper">
+            <div className="header-container">
+                <h1>{notebook.name} Notes</h1>
+                <div className="button-container">
+                    <button onClick={openCreateNoteModal}>Create a New Note</button>
+                    <button onClick={() => navigate("/notebooks")}>Back to All Notebooks</button>
+                </div>
+            </div>
             {notes?.length ? (
-                <div>
+                <ul className="notes-container">
                     {notes?.map(note => (
-                        <div key={note.id}>
-                            <div onClick={() => handleClick(note)}>
-                                <li>{note.title}</li>
+                        <div key={note.id} className="note-item" onClick={() => handleClick(note)}>
+                            <div id='note-div'>
+                                <li className='note-title'>{note.title}</li>
                             </div>
-                            <div>
-                                <button onClick={() => openEditNoteModal(note)}>Edit</button>
-                                <button onClick={() => openDeleteNoteModal(note)}>Delete</button>
+                            <div className="note-item-buttons">
+                                <button onClick={(event) => openEditNoteModal(event, note)}>Edit</button>
+                                <button onClick={(event) => openDeleteNoteModal(event, note)}>Delete</button>
                             </div>
                         </div>
                     ))}
-                </div>
+                </ul>
             ) : (
                 <p>No notes found for this notebook.</p>
             )}

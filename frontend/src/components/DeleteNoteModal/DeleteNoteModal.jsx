@@ -2,27 +2,25 @@ import { useDispatch } from 'react-redux';
 import { deleteNote } from '../../store/note';
 import { useModal } from '../../context/Modal';
 
-function DeleteNoteModal({ noteId, notebookId }) {
-    const dispatch = useDispatch();
-    const { closeModal } = useModal();
+const DeleteNoteModal = ({ noteId, notebookId, redirectAfterDelete }) => {
+  const dispatch = useDispatch();
+  const { closeModal } = useModal();
 
-    const handleDelete = async () => {
-        if (!noteId) {
-            console.error('Note ID is undefined!');
-            return;
-        }
-        
-        await dispatch(deleteNote(noteId, notebookId));
-        closeModal();
-    };
+  const handleDelete = async () => {
+    const result = await dispatch(deleteNote(noteId));
+    if (result) {
+      closeModal(); // Close the modal
+      if (redirectAfterDelete) redirectAfterDelete(); // Redirect after delete
+    }
+  };
 
-    return (
-        <div>
-            <h2>Are you sure you want to delete this note?</h2>
-            <button onClick={handleDelete}>Yes, Delete</button>
-            <button onClick={closeModal}>Cancel</button>
-        </div>
-    );
-}
+  return (
+    <div>
+      <h2>Are you sure you want to delete this note?</h2>
+      <button onClick={handleDelete}>Yes, Delete</button>
+      <button onClick={closeModal}>Cancel</button>
+    </div>
+  );
+};
 
 export default DeleteNoteModal;
