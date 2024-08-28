@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import { deleteNote } from '../../store/note';
 import { useModal } from '../../context/Modal';
 
-const DeleteNoteModal = ({ noteId, notebookId, redirectAfterDelete }) => {
+const DeleteNoteModal = ({ noteId, redirectAfterDelete }) => {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
 

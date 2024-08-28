@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { editTask } from '../../store/task';
-import { useModal } from '../../context/Modal';
 import './EditTaskModal.css';
 
 const EditTaskModal = ({ task, closeModal }) => {

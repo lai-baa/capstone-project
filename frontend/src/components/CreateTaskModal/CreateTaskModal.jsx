@@ -1,5 +1,5 @@
 // frontend/src/components/CreateTaskModal/CreateTaskModal.jsx
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { createTask } from '../../store/task';
 import { useModal } from '../../context/Modal';
