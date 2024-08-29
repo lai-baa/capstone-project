@@ -101,19 +101,31 @@ router.delete('/:id', requireAuth, async (req, res) => {
     const noteId = req.params.id;
     const userId = req.user.id;
 
-    const note = await Note.findOne({
-        where: {
-            id: noteId,
-            ownerId: userId, // Ensure the user owns the note
-        },
-    });
+    try {
+        // Find the note to delete
+        const note = await Note.findOne({
+            where: {
+                id: noteId,
+                ownerId: userId, // Ensure the user owns the note
+            },
+            include: [{ model: Tag, as: 'Tags' }] // Include associated tags
+        });
 
-    if (!note) {
-        return res.status(404).json({ message: 'Note not found' });
+        if (!note) {
+            return res.status(404).json({ message: 'Note not found' });
+        }
+
+        // Remove all associated tags before deleting the note
+        await note.setTags([]); // This removes all associations in the NoteTag join table
+
+        // Delete the note itself
+        await note.destroy();
+
+        return res.json({ message: 'Note and its associated tags successfully deleted' });
+    } catch (error) {
+        console.error("Error deleting note and tags:", error);
+        return res.status(500).json({ message: 'Failed to delete note and associated tags.' });
     }
-
-    await note.destroy();
-    return res.json({ message: 'Note successfully deleted' });
 });
 
 // Add a new tag to a note

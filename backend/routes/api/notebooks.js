@@ -1,6 +1,6 @@
 // backend/routes/api/notebooks.js
 const express = require('express');
-const { Notebook, Note } = require('../../db/models');
+const { Notebook, Note, Tag, NoteTag } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -83,27 +83,42 @@ router.delete('/:id', requireAuth, async (req, res) => {
     const notebookId = req.params.id;
     const userId = req.user.id;
 
-    const notebook = await Notebook.findOne({
-        where: {
-            id: notebookId,
-            ownerId: userId,
-        },
-        include: [{ model: Note }]
-    });
+    try {
+        // Find the notebook to delete
+        const notebook = await Notebook.findOne({
+            where: {
+                id: notebookId,
+                ownerId: userId, // Ensure the user owns the notebook
+            },
+            include: [{
+                model: Note,
+                include: [{ model: Tag, as: 'Tags' }] // Include associated notes and their tags
+            }]
+        });
 
-    if (!notebook) {
-        return res.status(404).json({ message: 'Notebook not found' });
-    }
-
-    await Note.destroy({
-        where: {
-            notebookId: notebook.id
+        if (!notebook) {
+            return res.status(404).json({ message: 'Notebook not found' });
         }
-    });
 
-    await notebook.destroy();
+        // Loop through each note to remove associated tags
+        for (const note of notebook.Notes) {
+            // Remove all associated tags for each note
+            await note.setTags([]);
+        }
 
-    return res.json({ message: 'Notebook and its notes successfully deleted' });
+        // Delete all notes associated with the notebook
+        await Note.destroy({
+            where: { notebookId }
+        });
+
+        // Delete the notebook itself
+        await notebook.destroy();
+
+        return res.json({ message: 'Notebook, its notes, and associated tags successfully deleted' });
+    } catch (error) {
+        console.error("Error deleting notebook, notes, and tags:", error);
+        return res.status(500).json({ message: 'Failed to delete notebook, its notes, and associated tags.' });
+    }
 });
 
 module.exports = router;
