@@ -21,7 +21,7 @@ const validateTask = [
       .withMessage('Due date is required.')
       .isISO8601()
       .withMessage('Due date must be a valid date.'),
-      check('priority')
+    check('priority')
       .exists({ checkFalsy: true })
       .withMessage('Priority is required.')
       .isIn(['low', 'medium', 'high'])
@@ -67,11 +67,11 @@ router.get("/:id", requireAuth, async(req, res) => {
 
 // Create a new task
 router.post('/', requireAuth, validateTask, async (req, res) => {
-    const { title, description, dueDate, priority, completed } = req.body;
+    const { title, description, dueDate, priority } = req.body;
     const userId = req.user.id;
   
     try {
-      const task = await Task.create({ title, description, dueDate, priority, completed, userId });
+      const task = await Task.create({ title, description, dueDate, priority, userId });
       return res.json(task);
     } catch (error) {
       console.error(error);
