@@ -6,7 +6,7 @@ import { useModal } from '../../context/Modal';
 const CreateNotebookModal = () => {
   const dispatch = useDispatch();
   const [name, setName] = useState('');
-  const [favorite, setFavorite] = useState(false);
+  // const [favorite, setFavorite] = useState(false);
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
@@ -26,7 +26,7 @@ const CreateNotebookModal = () => {
 
     // Proceed only if there are no client-side validation errors
     if (Object.keys(errors).length === 0) {
-      const newNotebook = { name, favorite };
+      const newNotebook = { name };
       const result = await dispatch(createNotebook(newNotebook));
 
       if (result.errors) {

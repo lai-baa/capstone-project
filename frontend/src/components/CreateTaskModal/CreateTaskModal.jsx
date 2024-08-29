@@ -12,7 +12,7 @@ const CreateTaskModal = () => {
   const [description, setDescription] = useState('');
   const [dueDate, setDueDate] = useState('');
   const [priority, setPriority] = useState('');
-  const [completed, setCompleted] = useState(false);
+  // const [completed, setCompleted] = useState(false);
   const [errors, setErrors] = useState({});
 
   // Get the current date in 'YYYY-MM-DD' format
@@ -48,7 +48,7 @@ const CreateTaskModal = () => {
     e.preventDefault();
 
     if (Object.keys(errors).length === 0) {
-      const newTask = { title, description, dueDate, priority, completed };
+      const newTask = { title, description, dueDate, priority };
 
       const result = await dispatch(createTask(newTask));
 
