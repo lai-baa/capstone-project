@@ -1,5 +1,5 @@
 const express = require('express');
-const { Note } = require('../../db/models');
+const { Note, Tag } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -23,19 +23,33 @@ const validateNote = [
 // Get all details for a note
 router.get('/:id', requireAuth, async(req, res) => {
     const { id } = req.params;
-    const note = await Note.findByPk(id);
+    const userId = req.user.id;
 
-    if (!note) {
-        return res.status(404).json({ message: 'Note not found.' });
-    }
-    
-    if (note.ownerId !== req.user.id) {
-        return res.status(404).json({ message: 'You do not have access to this note.' });
-    }
+    try {
+        const note = await Note.findByPk(id, {
+            include: [
+                {
+                    model: Tag,
+                    as: 'Tags',
+                    through: { attributes: [] }
+                }
+            ]
+        });
 
-    res.json(note);
+        if (!note) {
+            return res.status(404).json({ message: 'Note not found.' });
+        }
+
+        if (note.ownerId !== userId) {
+            return res.status(404).json({ message: 'You do not have access to this note.' });
+        }
+
+        res.json(note);
+    } catch (error) {
+        console.error('Error fetching note:', error);
+        res.status(500).json({ message: 'Failed to fetch note details.' });
+    }
 });
-
 
 // Create a new note for a notebook
 router.post('/', requireAuth, validateNote, async (req, res) => {

@@ -13,9 +13,10 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Tag.belongsTo(models.User, { foreignKey: 'userId' });
       Tag.belongsToMany(models.Note, {
-        through: 'NoteTag', // The join table name
-        foreignKey: 'tagId', // The foreign key in the join table pointing to Tag
-        otherKey: 'noteId' // The foreign key in the join table pointing to Note
+        through: 'NoteTag',
+        foreignKey: 'tagId',
+        otherKey: 'noteId',
+        as: "Notes"
       });
     }
   }

@@ -49,6 +49,16 @@ function NoteDetails() {
             <h1>{note.title}</h1>
             <p>{formatDate(note.updatedAt)}</p>
             <p>{note.description}</p>
+            <h3>Tags:</h3>
+            {note.Tags && note.Tags.length > 0 ? (
+                <ul>
+                    {note.Tags.map(tag => (
+                        <li key={tag.id}>{tag.name}</li>
+                    ))}
+                </ul>
+            ) : (
+                <p>No tags assigned for this note</p>
+            )}
             <button onClick={openEditNoteModal}>Edit Note</button>
             <button onClick={openDeleteNoteModal}>Delete Note</button>
         </div>
