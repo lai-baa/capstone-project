@@ -27,8 +27,9 @@ module.exports = {
         type: Sequelize.STRING
       },
       favorite: {
-        allowNull: true,
-        type: Sequelize.BOOLEAN
+        allowNull: false,
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       createdAt: {
         allowNull: false,

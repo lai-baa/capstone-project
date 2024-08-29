@@ -53,7 +53,7 @@ router.post('/', requireAuth, validateNotebook, async (req, res) => {
     const ownerId = req.user.id;
 
     try {
-        const notebook = await Notebook.create({ name, ownerId });
+        const notebook = await Notebook.create({ name, ownerId, favorite: false });
         return res.json(notebook);
     } catch(error) {
         console.error('Error creating notebook:', error);
