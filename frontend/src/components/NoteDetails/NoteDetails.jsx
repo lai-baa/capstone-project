@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getNoteDetails } from '../../store/note';
+import { getNoteDetails, addTag, deleteTag } from '../../store/note';
 import EditNoteModal from '../EditNoteModal/EditNoteModal';
 import DeleteNoteModal from '../DeleteNoteModal/DeleteNoteModal';
 import { useModal } from '../../context/Modal';
@@ -18,6 +18,7 @@ function NoteDetails() {
     const note = useSelector(state => state.notes[id]);
     const navigate = useNavigate();
     const { setModalContent, setOnModalClose } = useModal();
+    const [tagName, setTagName] = useState('');
 
     useEffect(() => {
         dispatch(getNoteDetails(id));
@@ -41,6 +42,17 @@ function NoteDetails() {
         );
     };
 
+    const handleAddTag = async () => {
+        if (tagName.trim()) {
+            await dispatch(addTag(id, tagName.trim()));
+            setTagName('');
+        }
+    };
+
+    const handleDeleteTag = async (tagId) => {
+        await dispatch(deleteTag(id, tagId));
+    };
+
     if (!note) return <p>Loading...</p>;
 
     return (
@@ -53,12 +65,25 @@ function NoteDetails() {
             {note.Tags && note.Tags.length > 0 ? (
                 <ul>
                     {note.Tags.map(tag => (
-                        <li key={tag.id}>{tag.name}</li>
+                        <li key={tag.id}>
+                            {tag.name}
+                            <button onClick={() => handleDeleteTag(tag.id)}>Delete</button>
+                        </li>
                     ))}
                 </ul>
             ) : (
                 <p>No tags assigned for this note</p>
             )}
+            {/* Add Tag Input */}
+            <div>
+                <input 
+                    type="text" 
+                    value={tagName} 
+                    onChange={(e) => setTagName(e.target.value)} 
+                    placeholder="Add a tag"
+                />
+                <button onClick={handleAddTag}>Add Tag</button>
+            </div>
             <button onClick={openEditNoteModal}>Edit Note</button>
             <button onClick={openDeleteNoteModal}>Delete Note</button>
         </div>

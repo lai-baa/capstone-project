@@ -1,5 +1,5 @@
 const express = require('express');
-const { Note, Tag } = require('../../db/models');
+const { Note, Tag, NoteTag } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -114,6 +114,77 @@ router.delete('/:id', requireAuth, async (req, res) => {
 
     await note.destroy();
     return res.json({ message: 'Note successfully deleted' });
+});
+
+// Add a new tag to a note
+router.post('/:id/tags', requireAuth, async (req, res) => {
+    const { id } = req.params;
+    const { tagName } = req.body;
+    const userId = req.user.id;
+
+    try {
+        // Find the note by ID
+        const note = await Note.findByPk(id);
+        if (!note || note.ownerId !== userId) {
+            return res.status(404).json({ message: 'Note not found or you do not have access.' });
+        }
+
+        // Check if the tag already exists
+        const [tag, created] = await Tag.findOrCreate({
+            where: { name: tagName, userId },
+            defaults: { userId }
+        });
+
+        // Associate the tag with the note
+        await note.addTag(tag);
+
+        // Fetch updated note with tags to return
+        const updatedNote = await Note.findByPk(id, {
+            include: [{ model: Tag, as: 'Tags', through: { attributes: [] } }]
+        });
+
+        res.json(updatedNote);
+    } catch (error) {
+        console.error('Error adding tag to note:', error);
+        res.status(500).json({ message: 'Failed to add tag to note.' });
+    }
+});
+
+// Delete a tag from a note
+router.delete('/:noteId/tags/:tagId', requireAuth, async (req, res) => {
+    const { noteId, tagId } = req.params;
+    const userId = req.user.id;
+
+    try {
+        // Find the note by ID
+        const note = await Note.findByPk(noteId, {
+            include: [{ model: Tag, as: 'Tags' }]
+        });
+
+        if (!note || note.ownerId !== userId) {
+            return res.status(404).json({ message: 'Note not found or you do not have access.' });
+        }
+
+        // Find the tag to be removed
+        const tag = await Tag.findByPk(tagId);
+
+        if (!tag || tag.userId !== userId) {
+            return res.status(404).json({ message: 'Tag not found or you do not have access.' });
+        }
+
+        // Remove the tag association with the note
+        await note.removeTag(tag);
+
+        // Fetch updated note with tags to return
+        const updatedNote = await Note.findByPk(noteId, {
+            include: [{ model: Tag, as: 'Tags', through: { attributes: [] } }]
+        });
+
+        res.json(updatedNote);
+    } catch (error) {
+        console.error('Error deleting tag from note:', error);
+        res.status(500).json({ message: 'Failed to delete tag from note.' });
+    }
 });
 
 module.exports = router;
