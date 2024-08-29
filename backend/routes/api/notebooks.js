@@ -67,8 +67,12 @@ router.put("/:id", requireAuth, validateNotebook, async(req, res) => {
 
     const notebook = await Notebook.findByPk(notebookId);
 
-    if (!notebook || notebook.ownerId !== userId) {
-        return res.status(404).json({ error: "Notebook not found" });
+    if (!notebook) {
+        return res.status(404).json({ error: "Notebook not found." });
+    }
+
+    if (notebook.ownerId !== userId) {
+        return res.status(404).json({ error: "You do not have access to this notebook." });
     }
 
     notebook.name = name;

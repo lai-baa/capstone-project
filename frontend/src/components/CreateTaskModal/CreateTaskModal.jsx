@@ -112,14 +112,14 @@ const CreateTaskModal = () => {
         </label>
         {errors.priority && <p className="error-message">{errors.priority}</p>}
         
-        <label>
+        {/* <label>
           Completed
           <input
             type="checkbox"
             checked={completed}
             onChange={(e) => setCompleted(e.target.checked)}
           />
-        </label>
+        </label> */}
         <button type="submit">Create Task</button>
         <button type="button" onClick={closeModal}>Cancel</button>
       </form>

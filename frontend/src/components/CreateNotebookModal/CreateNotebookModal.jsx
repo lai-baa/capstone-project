@@ -56,14 +56,14 @@ const CreateNotebookModal = () => {
         </label>
         {/* Render errors dynamically if they exist */}
         {errors.name && <p className="error-message">{errors.name}</p>}
-        <label>
+        {/* <label>
           Favorite
           <input
             type="checkbox"
             checked={favorite}
             onChange={(e) => setFavorite(e.target.checked)}
           />
-        </label>
+        </label> */}
         <button type="submit" disabled={Object.keys(errors).length > 0}>Create</button>
         <button type="button" onClick={handleCancelClick}>Cancel</button>
       </form>
