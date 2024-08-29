@@ -1,5 +1,5 @@
 const express = require('express');
-const { Note } = require('../../db/models');
+const { Note, Tag, NoteTag } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -21,27 +21,37 @@ const validateNote = [
 ];
 
 // Get all details for a note
-router.get('/:id', requireAuth, async(req, res) => {
+router.get('/:id', requireAuth, async (req, res) => {
     const { id } = req.params;
-    const note = await Note.findByPk(id);
+    const userId = req.user.id;
 
-    if (!note) {
-        return res.status(404).json({ message: 'Note not found.' });
-    }
-    
-    if (note.ownerId !== req.user.id) {
-        return res.status(404).json({ message: 'You do not have access to this note.' });
-    }
+    try {
+        const note = await Note.findByPk(id, {
+            include: [
+                {
+                    model: Tag,
+                    as: 'Tags',
+                    through: { attributes: [] }
+                }
+            ]
+        });
 
-    res.json(note);
+        if (!note || note.ownerId !== userId) {
+            return res.status(404).json({ message: 'Note not found or you do not have access.' });
+        }
+
+        res.json(note);
+    } catch (error) {
+        console.error('Error fetching note:', error);
+        res.status(500).json({ message: 'Failed to fetch note details.' });
+    }
 });
-
 
 // Create a new note for a notebook
 router.post('/', requireAuth, validateNote, async (req, res) => {
-    const { title, description, notebookId } = req.body;
-    const ownerId = req.user.id;
-    console.log("Received data:", { title, description, notebookId });
+    const { title, description, notebookId, tags } = req.body;
+    const ownerId = req.user.id; // Ensure you are getting the user's ID
+    console.log("Received data:", { title, description, notebookId, tags });
     
     if (!title || !description || !notebookId) {
         console.log("Missing required fields");
@@ -50,13 +60,26 @@ router.post('/', requireAuth, validateNote, async (req, res) => {
 
     try {
         const note = await Note.create({ title, description, notebookId, ownerId });
+
+        if (tags && tags.length > 0) {
+            const tagPromises = tags.map(async (tagName) => {
+                // Create the tag with the correct userId
+                const [tag, created] = await Tag.findOrCreate({
+                    where: { name: tagName, userId: ownerId },
+                    defaults: { userId: ownerId }
+                });
+                return NoteTag.create({ noteId: note.id, tagId: tag.id });
+            });
+            await Promise.all(tagPromises);
+        }
+
         return res.json(note);
     } catch (error) {
-        console.log("Error creating note:", error);
+        console.error("Error creating note:", error);
         return res.status(400).json({ errors: error.errors.map(e => e.message) });
     }
 });
-
+    
 // Edit an existing note
 router.put('/:id', requireAuth, validateNote, async(req, res) => {
     const { id } = req.params;

@@ -5,6 +5,7 @@ import { getNoteDetails } from '../../store/note';
 import EditNoteModal from '../EditNoteModal/EditNoteModal';
 import DeleteNoteModal from '../DeleteNoteModal/DeleteNoteModal';
 import { useModal } from '../../context/Modal';
+import "./NoteDetails.css"
 
 function formatDate(dateString) {
     const date = new Date(dateString);
@@ -49,6 +50,21 @@ function NoteDetails() {
             <h1>{note.title}</h1>
             <p>{formatDate(note.updatedAt)}</p>
             <p>{note.description}</p>
+            
+            {/* Tags */}
+            {note.Tags && note.Tags.length > 0 ? (
+                <div>
+                <h3>Tags:</h3>
+                <div>
+                    {note.Tags.map(tag => (
+                    <li key={tag.id}>{tag.name}</li>
+                    ))}
+                </div>
+                </div>
+            ) : (
+                <p className='no-tags'>No tags assigned for this note.</p>
+            )}
+        
             <button onClick={openEditNoteModal}>Edit Note</button>
             <button onClick={openDeleteNoteModal}>Delete Note</button>
         </div>
