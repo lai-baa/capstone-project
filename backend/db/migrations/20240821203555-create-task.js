@@ -40,7 +40,7 @@ module.exports = {
       },
       completed: {
         type: Sequelize.BOOLEAN,
-        allowNull: true,
+        allowNull: false,
         defaultValue: false
       },
       createdAt: {

@@ -71,7 +71,7 @@ router.post('/', requireAuth, validateTask, async (req, res) => {
     const userId = req.user.id;
   
     try {
-      const task = await Task.create({ title, description, dueDate, priority, userId });
+      const task = await Task.create({ title, description, dueDate, priority, userId, completed: false });
       return res.json(task);
     } catch (error) {
       console.error(error);
