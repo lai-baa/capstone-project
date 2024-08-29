@@ -46,6 +46,7 @@ const TaskDetails = () => {
 
     return (
         <div>
+            <button onClick={() => navigate(`/tasks`)}>Back to Tasks</button>
             <h1>{task.title}</h1>
             <p>Due Date: {formatDate(task.dueDate)}</p>
             <p>Details: {task.description}</p>

@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     favorite: {
       type: DataTypes.BOOLEAN,
-      allowNull: false
+      allowNull: true
     },
   }, {
     sequelize,

@@ -48,13 +48,15 @@ router.get('/:id', requireAuth, async (req, res) => {
 
 // Create a new notebook
 router.post('/', requireAuth, validateNotebook, async (req, res) => {
-    const { name, favorite } = req.body;
+    console.log('Request Body:', req.body);  // Debugging line
+    const { name } = req.body;
     const ownerId = req.user.id;
 
     try {
-        const notebook = await Notebook.create({ name, favorite, ownerId });
+        const notebook = await Notebook.create({ name, ownerId });
         return res.json(notebook);
     } catch(error) {
+        console.error('Error creating notebook:', error);
         return res.status(400).json({ errors: error.errors.map(e => e.message) });
     }
 });
