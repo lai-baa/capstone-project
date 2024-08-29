@@ -24,7 +24,7 @@ const validateTask = [
     check('priority')
       .exists({ checkFalsy: true })
       .withMessage('Priority is required.')
-      .isIn(['low', 'medium', 'high'])
+    //   .isIn(['low', 'medium', 'high'])
       .withMessage('Priority must be Low, Medium, or High.'),
     handleValidationErrors
 ];

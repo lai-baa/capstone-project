@@ -7,6 +7,7 @@ const GET_ONE_NOTEBOOK = 'notebooks/GET_ONE_NOTEBOOK';
 const CREATE_NOTEBOOK = 'notebooks/CREATE_NOTEBOOK';
 const UPDATE_NOTEBOOK = 'notebooks/UPDATE_NOTEBOOK';
 const DELETE_NOTEBOOK = 'notebooks/DELETE_NOTEBOOK';
+const GET_FAVORITE_NOTEBOOKS = 'notebooks/GET_FAVORITE_NOTEBOOKS';
 
 // Action creator
 const getAllNotebooks = (notebooks) => ({
@@ -32,6 +33,11 @@ const updateNotebook = (notebook) => ({
 const removeNotebook = (notebookId) => ({
     type: DELETE_NOTEBOOK,
     notebookId,
+});
+
+const getFavoriteNotebooksAction = (notebooks) => ({
+    type: GET_FAVORITE_NOTEBOOKS,
+    notebooks,
 });
 
 // Get notebooks of user thunk
@@ -112,6 +118,19 @@ export const deleteNotebook = (notebookId) => async (dispatch) => {
     }
 };
 
+// Get all favorite notebooks thunk
+export const getFavoriteNotebooks = () => async (dispatch) => {
+    const response = await csrfFetch('/api/notebooks/favorites');
+    if (response.ok) {
+        const data = await response.json();
+        dispatch(getFavoriteNotebooksAction(data.notebooks));
+        return data.notebooks;
+    } else {
+        const error = await response.json();
+        return error;
+    }
+};
+
 // Initial state
 const initialState = {};
 
@@ -146,6 +165,13 @@ const notebooksReducer = (state = initialState, action) => {
             const newState = { ...state };
             delete newState[action.notebookId];
             return newState;
+        }
+        case GET_FAVORITE_NOTEBOOKS: {
+            const favorites = {};
+            action.notebooks.forEach(notebook => {
+                favorites[notebook.id] = notebook;
+            });
+            return { ...state, favorites };
         }
         default:
             return state;

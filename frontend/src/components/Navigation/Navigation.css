@@ -104,3 +104,18 @@ li {
  background-color: rgb(129, 128, 128);
  color: white;
 }
+
+/* Add this to your CSS file (e.g., ProfileButton.css) */
+.link-style-button {
+    background: none;
+    border: none;
+    color: blue; /* Change this color to whatever suits your design */
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+    font-size: inherit;
+}
+
+.link-style-button:hover {
+    color: darkblue; /* Optional: change color on hover */
+}

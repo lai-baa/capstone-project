@@ -9,6 +9,7 @@ import NotebookDetails from './components/NotebookDetails/NotebookDetails';
 import NoteDetails from './components/NoteDetails/NoteDetails';
 import TasksList from './components/TasksList/TasksList';
 import TaskDetails from './components/TaskDetails/TaskDetails';
+import Favorites from './components/Favorites/Favorites';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
       {
         path: '/tasks/:id',
         element: <TaskDetails />
+      },
+      {
+        path: '/favorites',
+        element: <Favorites />
       }
     ]
   }

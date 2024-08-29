@@ -16,6 +16,18 @@ const validateNotebook = [
     handleValidationErrors
 ];
 
+// Get all favorite notebooks for the logged-in user
+router.get('/favorites', requireAuth, async (req, res) => {
+    const { user } = req;
+    const favoriteNotebooks = await Notebook.findAll({
+        where: {
+            ownerId: user.id,
+            favorite: true // Only fetch notebooks marked as favorite
+        },
+    });
+    res.json({ notebooks: favoriteNotebooks });
+});
+
 // Get all notebooks for logged in user
 router.get('/', requireAuth, async (req, res) => {
     const {user} = req;

@@ -47,6 +47,11 @@ const ProfileButton = ({user}) => {
         navigate('/')
     };
 
+    const handleManageFavoritesClick = () => {
+        closeMenu();
+        navigate('/favorites');
+    };
+
     const dropdownClasses ="profile-dropdown" + (showMenu ? "" : " hidden");
     return (
     <div>
@@ -62,7 +67,7 @@ const ProfileButton = ({user}) => {
                 <li>Hello, {user.firstName}</li>
                 <li>{user.email}</li>
                 <hr></hr>
-                <Link to="/favorites">Manage Favorites</Link>
+                <button onClick={handleManageFavoritesClick} className="link-style-button">Manage Favorites</button>
                 <hr></hr>
                 <li id="logout">
                     <button onClick={logoutClick}>Log Out</button>
