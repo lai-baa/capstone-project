@@ -5,7 +5,6 @@ import OpenModalMenuItem from './OpenModalMenuItem'
 import LoginFormModal from '../LoginFormModal/LoginFormModal';
 import SignupFormModal from "../SignupFormModal/SignupFormModal";
 import { useNavigate } from "react-router-dom";
-import { Link } from 'react-router-dom';
 
 import { useDispatch } from "react-redux";
 import { useEffect, useState, useRef } from "react";
