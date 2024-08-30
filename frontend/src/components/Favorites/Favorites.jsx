@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useModal } from '../../context/Modal';
@@ -13,13 +13,8 @@ const Favorites = () => {
     const [favoriteNotebooks, setFavoriteNotebooks] = useState([]);
     const { setModalContent, setOnModalClose } = useModal();
 
-    // Fetch all notebooks on initial render
-    useEffect(() => {
-        fetchFavorites();
-    }, [dispatch]);
-
-    // Function to fetch all favorites
-    const fetchFavorites = () => {
+    // Use useCallback to memoize fetchFavorites
+    const fetchFavorites = useCallback(() => {
         dispatch(getNotebooks())
             .then((fetchedNotebooks) => {
                 const favorites = Object.values(fetchedNotebooks).filter(notebook => notebook.favorite);
@@ -28,7 +23,11 @@ const Favorites = () => {
             .catch((error) => {
                 console.error('Error fetching notebooks:', error);
             });
-    };
+    }, [dispatch]); // Dependencies
+
+    useEffect(() => {
+        fetchFavorites();
+    }, [fetchFavorites]);
 
     const handleClick = (notebook) => {
         navigate(`/notebooks/${notebook.id}`);
@@ -42,7 +41,7 @@ const Favorites = () => {
                 closeModal={() => {
                     setModalContent(null);
                     handleDelete(notebookId);
-                    fetchFavorites();
+                    fetchFavorites()
                 }}
             />
         );
@@ -56,7 +55,7 @@ const Favorites = () => {
                 notebook={notebook}
                 closeModal={() => {
                     setModalContent(null);
-                    fetchFavorites(); // Refresh favorites after editing
+                    fetchFavorites();
                 }}
             />
         );
