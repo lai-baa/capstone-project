@@ -10,6 +10,7 @@ import NoteDetails from './components/NoteDetails/NoteDetails';
 import TasksList from './components/TasksList/TasksList';
 import TaskDetails from './components/TaskDetails/TaskDetails';
 import Favorites from './components/Favorites/Favorites';
+import Reminders from './components/Reminders/Reminders';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -60,6 +61,10 @@ const router = createBrowserRouter([
       {
         path: '/favorites',
         element: <Favorites />
+      },
+      {
+        path: '/reminders',
+        element: <Reminders />
       }
     ]
   }

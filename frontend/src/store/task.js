@@ -7,6 +7,7 @@ const GET_TASK_DETAILS = "task/GET_TASK_DETAILS";
 const CREATE_TASK = 'tasks/CREATE_TASK';
 const EDIT_TASK = 'tasks/EDIT_TASK';
 const DELETE_TASK = 'tasks/DELETE_TASK';
+const GET_REMINDERS = 'tasks/GET_REMINDERS';
 
 // Actions
 const getTasksAction = (tasks) => ({
@@ -32,6 +33,11 @@ const editTaskAction = (task) => ({
 const deleteTaskAction = (taskId) => ({
     type: DELETE_TASK,
     taskId,
+});
+
+const getAllReminders = (tasks) => ({
+    type: GET_REMINDERS,
+    tasks,
 });
 
 // Get all tasks thunk
@@ -111,6 +117,22 @@ export const deleteTask = (taskId) => async (dispatch) => {
     }
 };
 
+// Get tasks due within the next 5 days thunk
+export const getReminders = () => async (dispatch) => {
+    const response = await csrfFetch('/api/tasks/reminders');
+    if (response.ok) {
+        console.log("IN THUNK >>>>>>>>>>>>>>>>")
+        // console.log("RES >>>>>>>>>>>>>>", response)
+        const data = await response.json();
+        // console.log(">>>>>>>>>>>>>", data)
+        dispatch(getAllReminders(data.tasks));
+        return data.tasks;
+    } else {
+        const error = await response.json();
+        return error;
+    }
+};
+
 // Initial state
 const initialState = {};
 
@@ -137,6 +159,13 @@ const tasksReducer = (state = initialState, action) => {
             const newState = { ...state };
             delete newState[action.taskId];
             return newState;
+        }
+        case GET_REMINDERS: {
+            const reminders = {};
+            action.tasks.forEach(task => {
+                reminders[task.id] = task;
+            });
+            return { ...state, reminders };
         }
         default:
             return state;

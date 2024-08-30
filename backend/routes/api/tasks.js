@@ -1,5 +1,6 @@
 const express = require('express');
 const { Task } = require('../../db/models');
+const { Op } = require('sequelize');
 const { requireAuth } = require('../../utils/auth');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -28,6 +29,31 @@ const validateTask = [
       .withMessage('Priority must be Low, Medium, or High.'),
     handleValidationErrors
 ];
+
+// Get tasks due within the next 5 days
+router.get('/reminders', requireAuth, async (req, res) => {
+    const userId = req.user.id;
+
+    try {
+        const now = new Date();
+        const fiveDaysFromNow = new Date();
+        fiveDaysFromNow.setDate(now.getDate() + 5);
+
+        const tasks = await Task.findAll({
+            where: {
+                userId,
+                dueDate: {
+                    [Op.between]: [now, fiveDaysFromNow]
+                }
+            }
+        });
+
+        return res.json({ tasks });
+    } catch (error) {
+        console.error('Error fetching reminders:', error);
+        return res.status(500).json({ message: 'Failed to fetch reminders.' });
+    }
+});
 
 // Get all tasks of a user
 router.get("/", requireAuth, async(req, res) => {
