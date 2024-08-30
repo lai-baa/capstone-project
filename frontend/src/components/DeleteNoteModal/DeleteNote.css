@@ -1,0 +1,44 @@
+.delete-note-modal {
+    padding: 30px;
+    width: 100%;
+    max-width: 400px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.delete-note-heading {
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.delete-note-button {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    color: white;
+    width: 100%;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.delete-button {
+    background-color: #e57373;
+}
+  
+.delete-button:hover {
+    background-color: #ef5350;
+}
+
+.cancel-button {
+    background-color: #e1bee7;
+    margin-top: 10px;
+}
+  
+.cancel-button:hover {
+    background-color: #d1c4e9;
+}

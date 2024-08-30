@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { deleteNote } from '../../store/note';
 import { useModal } from '../../context/Modal';
+import "./DeleteNote.css";
 
 const DeleteNoteModal = ({ noteId, redirectAfterDelete }) => {
   const dispatch = useDispatch();
@@ -15,10 +16,10 @@ const DeleteNoteModal = ({ noteId, redirectAfterDelete }) => {
   };
 
   return (
-    <div>
-      <h2>Are you sure you want to delete this note?</h2>
-      <button onClick={handleDelete}>Yes, Delete</button>
-      <button onClick={closeModal}>Cancel</button>
+    <div className="delete-note-modal">
+      <h2 className="delete-note-heading">Are you sure you want to delete this note?</h2>
+      <button className="delete-note-button delete-button" onClick={handleDelete}>Yes, Delete</button>
+      <button className="delete-note-button cancel-button" onClick={closeModal}>Cancel</button>
     </div>
   );
 };

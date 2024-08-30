@@ -76,10 +76,12 @@ const Favorites = () => {
     }
 
     return (
-        <div>
-            <h2>Your Favorite Notebooks</h2>
-            <button onClick={() => navigate("/notebooks")}>View All Notebooks</button>
-            <div className="notebooks-container">
+        <div className="page-wrapper">
+            <div className="header-container">
+                <h1>Your Favorite Notebooks</h1>
+                <button onClick={() => navigate("/notebooks")}>View All Notebooks</button>
+            </div>
+            <ul className="notebooks-container">
                 {favoriteNotebooks.map(notebook => (
                     <div key={notebook.id} className="notebook-item" onClick={() => handleClick(notebook)}>
                         <div id='notebook-div'>
@@ -91,7 +93,7 @@ const Favorites = () => {
                         </div>
                     </div>
                 ))}
-            </div>
+            </ul>
         </div>
     );
 };

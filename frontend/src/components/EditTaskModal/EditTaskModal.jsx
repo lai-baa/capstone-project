@@ -59,12 +59,13 @@ const EditTaskModal = ({ task, closeModal }) => {
   };
 
   return (
-    <div className="edit-task-modal">
-      <h2>Edit Task</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
+    <div className="edit-task-modal-div">
+      <h2 className="modal-heading">Edit Task</h2>
+      <form className="modal-form" onSubmit={handleSubmit}>
+        <label className="modal-label">
           Title
           <input
+            className="task-modal-input"
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -73,9 +74,10 @@ const EditTaskModal = ({ task, closeModal }) => {
         </label>
         {errors.title && <p className="error-message">{errors.title}</p>}
         
-        <label>
+        <label className="modal-label">
           Description
           <textarea
+            className="task-modal-textarea"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             required
@@ -83,9 +85,10 @@ const EditTaskModal = ({ task, closeModal }) => {
         </label>
         {errors.description && <p className="error-message">{errors.description}</p>}
         
-        <label>
+        <label className="modal-label">
           Due Date
           <input
+            className="task-modal-input"
             type="date"
             value={dueDate}
             onChange={(e) => setDueDate(e.target.value)}
@@ -95,9 +98,14 @@ const EditTaskModal = ({ task, closeModal }) => {
         </label>
         {errors.dueDate && <p className="error-message">{errors.dueDate}</p>}
         
-        <label>
+        <label className="modal-label">
           Priority
-          <select value={priority} onChange={(e) => setPriority(e.target.value)} required>
+          <select 
+            className="task-modal-select"
+            value={priority} 
+            onChange={(e) => setPriority(e.target.value)} 
+            required
+          >
             <option value="" disabled>--Select Priority--</option>
             <option value="low">Low</option>
             <option value="medium">Medium</option>
@@ -106,16 +114,21 @@ const EditTaskModal = ({ task, closeModal }) => {
         </label>
         {errors.priority && <p className="error-message">{errors.priority}</p>}
         
-        <label>
-          Completed
+        <div className="completed-container">
+          <label className="modal-label" htmlFor="completed-checkbox">
+            Completed
+          </label>
           <input
+            id="completed-checkbox"
+            className="task-modal-checkbox"
             type="checkbox"
             checked={completed}
             onChange={(e) => setCompleted(e.target.checked)}
           />
-        </label>
-        <button type="submit">Update Task</button>
-        <button type="button" onClick={closeModal}>Cancel</button>
+        </div>
+        
+        <button className="modal-button update-button" type="submit">Update Task</button>
+        <button className="modal-button cancel-button" type="button" onClick={closeModal}>Cancel</button>
       </form>
     </div>
   );

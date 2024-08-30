@@ -37,19 +37,21 @@ const Reminders = () => {
     }
 
     return (
-        <div>
-            <h1>Your Reminders</h1>
-            <button onClick={() => navigate("/tasks")}>View All Tasks</button>
-            <ul>
+        <div className="page-wrapper">
+            <div className="header-container">
+                <h1>Your Reminders</h1>
+                <button onClick={() => navigate("/tasks")}>View All Tasks</button>
+            </div>
+            <div className="reminders-container">
                 {reminderTasks.map(task => (
-                    <li key={task.id}>
-                        <div onClick={() => navigate(`/tasks/${task.id}`)}>
-                            <h3>{task.title}</h3>
+                    <div key={task.id} className="reminder-item" onClick={() => navigate(`/tasks/${task.id}`)}>
+                        <div>
+                            <h2 className="reminder-title">{task.title}</h2>
                             <p>Due Date: {formatDate(task.dueDate)}</p>
                         </div>
-                    </li>
+                    </div>
                 ))}
-            </ul>
+            </div>
         </div>
     );
 };

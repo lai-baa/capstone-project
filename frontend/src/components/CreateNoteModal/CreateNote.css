@@ -1,0 +1,75 @@
+.create-note-modal {
+    padding: 30px;
+    width: 100%;
+    max-width: 400px;
+    background-color: white;
+    /* border-radius: 12px; */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.note-modal-heading {
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.note-modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 0 auto;
+}
+
+.note-modal-label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.note-modal-input {
+    width: 96%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 5px;
+}
+
+.note-error-message {
+    color: #ff4d4d;
+    font-size: 14px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+.note-modal-button {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    color: white;
+    background-color: #d1c4e9; /* Light purple color */
+    transition: background-color 0.2s ease-in-out;
+    width: 100%;
+}
+
+.note-create-button {
+    background-color: #d1c4e9;
+}
+
+.note-create-button:hover {
+    background-color: #b39ddb;
+}
+
+.note-cancel-button {
+    background-color: #e1bee7;
+    margin-top: 10px;
+}
+
+.note-cancel-button:hover {
+    background-color: #d1c4e9;
+}

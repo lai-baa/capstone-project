@@ -42,30 +42,36 @@ function CreateNoteModal({ notebookId }) {
 
     return (
         <div className="create-note-modal">
-            <h2>Create New Note</h2>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Title
-                    <input
-                        type="text"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        required
-                    />
-                </label>
-                {errors.title && <p className="error-message">{errors.title}</p>}
-                <label>
-                    Description
-                    <textarea
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        required
-                    />
-                </label>
-                {errors.description && <p className="error-message">{errors.description}</p>}
-                <button type="submit">Create Note</button>
-                <button type="button" onClick={closeModal}>Cancel</button>
-            </form>
+          <h2 className="note-modal-heading">Create New Note</h2>
+          <form className="note-modal-form" onSubmit={handleSubmit}>
+            <label className="note-modal-label">
+              Title
+              <input
+                className="note-modal-input"
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                required
+              />
+            </label>
+            {errors.title && <p className="note-error-message">{errors.title}</p>}
+            <label className="note-modal-label">
+              Description
+              <textarea
+                className="note-modal-input"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                required
+              />
+            </label>
+            {errors.description && <p className="note-error-message">{errors.description}</p>}
+            <button className="note-modal-button note-create-button" type="submit">
+              Create Note
+            </button>
+            <button className="note-modal-button note-cancel-button" type="button" onClick={closeModal}>
+              Cancel
+            </button>
+          </form>
         </div>
     );
 }

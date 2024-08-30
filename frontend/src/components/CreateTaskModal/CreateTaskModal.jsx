@@ -63,12 +63,13 @@ const CreateTaskModal = () => {
   };
 
   return (
-    <div className="create-task-modal">
-      <h2>Create New Task</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
+    <div className="create-task-modal-div">
+      <h2 className="modal-heading">Create New Task</h2>
+      <form className="modal-form" onSubmit={handleSubmit}>
+        <label className="modal-label">
           Title
           <input
+            className="task-modal-input"
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -76,20 +77,22 @@ const CreateTaskModal = () => {
           />
         </label>
         {errors.title && <p className="error-message">{errors.title}</p>}
-        
-        <label>
+
+        <label className="modal-label">
           Description
           <textarea
+            className="task-modal-textarea"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             required
           />
         </label>
         {errors.description && <p className="error-message">{errors.description}</p>}
-        
-        <label>
+
+        <label className="modal-label">
           Due Date
           <input
+            className="task-modal-input"
             type="date"
             value={dueDate}
             onChange={(e) => setDueDate(e.target.value)}
@@ -98,10 +101,11 @@ const CreateTaskModal = () => {
           />
         </label>
         {errors.dueDate && <p className="error-message">{errors.dueDate}</p>}
-        
-        <label>
+
+        <label className="modal-label">
           Priority
           <select
+            className="task-modal-select"
             value={priority}
             onChange={(e) => setPriority(e.target.value)}
             required
@@ -113,17 +117,9 @@ const CreateTaskModal = () => {
           </select>
         </label>
         {errors.priority && <p className="error-message">{errors.priority}</p>}
-        
-        {/* <label>
-          Completed
-          <input
-            type="checkbox"
-            checked={completed}
-            onChange={(e) => setCompleted(e.target.checked)}
-          />
-        </label> */}
-        <button type="submit">Create Task</button>
-        <button type="button" onClick={closeModal}>Cancel</button>
+
+        <button className="modal-button create-button" type="submit" disabled={Object.keys(errors).length > 0}>Create Task</button>
+        <button className="modal-button cancel-button" type="button" onClick={closeModal}>Cancel</button>
       </form>
     </div>
   );

@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { deleteTask } from '../../store/task';
 import { useModal } from '../../context/Modal';
+import "./DeleteTask.css";
 
 const DeleteTaskModal = ({ taskId, redirectAfterDelete }) => {
   const dispatch = useDispatch();
@@ -16,9 +17,9 @@ const DeleteTaskModal = ({ taskId, redirectAfterDelete }) => {
 
   return (
     <div className="delete-task-modal">
-      <h2>Are you sure you want to delete this task?</h2>
-      <button onClick={handleDelete}>Yes, Delete</button>
-      <button onClick={closeModal}>Cancel</button>
+      <h2 className="delete-task-heading">Are you sure you want to delete this task?</h2>
+      <button className="delete-task-button delete-button" onClick={handleDelete}>Yes, Delete</button>
+      <button className="delete-task-button cancel-button" onClick={closeModal}>Cancel</button>
     </div>
   );
 };

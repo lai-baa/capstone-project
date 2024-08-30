@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { editNote } from '../../store/note';
 import { useModal } from '../../context/Modal';
+import "./EditNote.css"
 
 const EditNoteModal = ({ note, onSuccess }) => {
     const dispatch = useDispatch();
@@ -41,30 +42,32 @@ const EditNoteModal = ({ note, onSuccess }) => {
     };
 
     return (
-        <div>
-            <h2>Edit Note</h2>
-            <form onSubmit={handleSubmit}>
-                <label>
+        <div className="edit-note-modal">
+            <h2 className="note-modal-heading">Edit Note</h2>
+            <form className="note-modal-form" onSubmit={handleSubmit}>
+                <label className="note-modal-label">
                     Title
                     <input
+                        className="note-modal-input"
                         type="text"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         required
                     />
                 </label>
-                {errors.title && <p className="error-message">{errors.title}</p>}
-                <label>
+                {errors.title && <p className="note-error-message">{errors.title}</p>}
+                <label className="note-modal-label">
                     Description
                     <textarea
+                        className="note-modal-input"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         required
                     />
                 </label>
-                {errors.description && <p className="error-message">{errors.description}</p>}
-                <button type="submit">Save Changes</button>
-                <button type="button" onClick={closeModal}>Cancel</button>
+                {errors.description && <p className="note-error-message">{errors.description}</p>}
+                <button className="note-modal-button note-save-button" type="submit">Save Changes</button>
+                <button className="note-modal-button note-cancel-button" type="button" onClick={closeModal}>Cancel</button>
             </form>
         </div>
     );

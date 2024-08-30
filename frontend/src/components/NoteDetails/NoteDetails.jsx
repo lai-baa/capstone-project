@@ -5,6 +5,7 @@ import { getNoteDetails, addTag, deleteTag } from '../../store/note';
 import EditNoteModal from '../EditNoteModal/EditNoteModal';
 import DeleteNoteModal from '../DeleteNoteModal/DeleteNoteModal';
 import { useModal } from '../../context/Modal';
+import "./NoteDetails.css"
 
 function formatDate(dateString) {
     const date = new Date(dateString);
@@ -56,26 +57,28 @@ function NoteDetails() {
     if (!note) return <p>Loading...</p>;
 
     return (
-        <div>
-            <button onClick={() => navigate(`/notebooks/${note.notebookId}`)}>Back to Notes</button>
-            <h1>{note.title}</h1>
-            <p>{formatDate(note.updatedAt)}</p>
-            <p>{note.description}</p>
-            <h3>Tags:</h3>
-            {note.Tags && note.Tags.length > 0 ? (
-                <ul>
-                    {note.Tags.map(tag => (
-                        <li key={tag.id}>
-                            {tag.name}
-                            <button onClick={() => handleDeleteTag(tag.id)}>Delete</button>
-                        </li>
-                    ))}
-                </ul>
-            ) : (
-                <p>No tags assigned for this note</p>
-            )}
+        <div className="note-details-container">
+            <button className="back-button" onClick={() => navigate(`/notebooks/${note.notebookId}`)}>Back to Notes</button>
+            <h1 className="note-title">{note.title}</h1>
+            <p className="note-date">{formatDate(note.updatedAt)}</p>
+            <p className="note-description">{note.description}</p>
+            <div className="tag-section">
+                <h3>Tags:</h3>
+                {note.Tags && note.Tags.length > 0 ? (
+                    <ul className="tags-list">
+                        {note.Tags.map(tag => (
+                            <li className="tag-item" key={tag.id}>
+                                {tag.name}
+                                <button onClick={() => handleDeleteTag(tag.id)}>Delete</button>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p>No tags assigned for this note</p>
+                )}
+            </div>
             {/* Add Tag Input */}
-            <div>
+            <div className="add-tag-section">
                 <input 
                     type="text" 
                     value={tagName} 
@@ -84,8 +87,10 @@ function NoteDetails() {
                 />
                 <button onClick={handleAddTag}>Add Tag</button>
             </div>
-            <button onClick={openEditNoteModal}>Edit Note</button>
-            <button onClick={openDeleteNoteModal}>Delete Note</button>
+            <div className="action-buttons">
+                <button onClick={openEditNoteModal}>Edit Note</button>
+                <button className="delete-btn" onClick={openDeleteNoteModal}>Delete Note</button>
+            </div>
         </div>
     );
 }

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { createNotebook } from '../../store/notebook';
 import { useModal } from '../../context/Modal';
+import "./CreateNotebook.css";
 
 const CreateNotebookModal = () => {
   const dispatch = useDispatch();
@@ -42,12 +43,13 @@ const CreateNotebookModal = () => {
   };
 
   return (
-    <div className="create-notebook-modal">
-      <h2>Create New Notebook</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
+    <div className="create-notebook-modal-div">
+      <h2 className="modal-heading">Create New Notebook</h2>
+      <form className="modal-form" onSubmit={handleSubmit}>
+        <label className="modal-label">
           Name
           <input
+            className="ntbk-modal-input"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -56,16 +58,8 @@ const CreateNotebookModal = () => {
         </label>
         {/* Render errors dynamically if they exist */}
         {errors.name && <p className="error-message">{errors.name}</p>}
-        {/* <label>
-          Favorite
-          <input
-            type="checkbox"
-            checked={favorite}
-            onChange={(e) => setFavorite(e.target.checked)}
-          />
-        </label> */}
-        <button type="submit" disabled={Object.keys(errors).length > 0}>Create</button>
-        <button type="button" onClick={handleCancelClick}>Cancel</button>
+        <button className="modal-button create-button" type="submit" disabled={Object.keys(errors).length > 0}>Create</button>
+        <button className="modal-button cancel-button" type="button" onClick={handleCancelClick}>Cancel</button>
       </form>
     </div>
   );
