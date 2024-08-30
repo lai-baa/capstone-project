@@ -15,7 +15,10 @@ const Reminders = () => {
     const navigate = useNavigate();
     const tasks = useSelector(state => state.tasks);
 
-    console.log("TASKS >>>>>>>>>>>>", tasks)
+    // Fetch reminders when component mounts
+    useEffect(() => {
+        dispatch(getReminders());
+    }, [dispatch]);
 
     // Memoize reminderTasks to avoid re-renders when tasks don't change
     const reminderTasks = useMemo(() => {
@@ -28,10 +31,6 @@ const Reminders = () => {
             return taskDueDate >= today && taskDueDate <= fiveDaysFromNow;
         });
     }, [tasks]);
-
-    useEffect(() => {
-        dispatch(getReminders());
-    }, [dispatch]);
 
     if (!reminderTasks.length) {
         return <div>No tasks due in the next 5 days.</div>;

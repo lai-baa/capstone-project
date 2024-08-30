@@ -48,6 +48,7 @@ router.get('/reminders', requireAuth, async (req, res) => {
             }
         });
 
+        console.log("Fetched reminders:", tasks);  // Add this line for debugging
         return res.json({ tasks });
     } catch (error) {
         console.error('Error fetching reminders:', error);

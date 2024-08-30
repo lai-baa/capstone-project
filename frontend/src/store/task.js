@@ -165,7 +165,7 @@ const tasksReducer = (state = initialState, action) => {
             action.tasks.forEach(task => {
                 reminders[task.id] = task;
             });
-            return { ...state, reminders };
+            return { ...state, ...reminders };
         }
         default:
             return state;
