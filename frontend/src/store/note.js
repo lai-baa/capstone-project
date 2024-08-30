@@ -74,19 +74,22 @@ export const createNote = (noteData) => async (dispatch) => {
 
 // Edit an existing note thunk
 export const editNote = (id, noteData) => async (dispatch) => {
-    // console.log("EDITING NOTE >>>>>", id, noteData);
     const response = await csrfFetch(`/api/notes/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(noteData),
     });
 
-    // console.log("RES >>>>>>>>>", response)
-    
     if (response.ok) {
-        // console.log("IN RESPONSE >>>>>>>>>>>>>>")
         const updatedNote = await response.json();
-        dispatch(editNoteAction(updatedNote));
+
+        // Fetch the updated note details including tags
+        const noteWithTagsResponse = await csrfFetch(`/api/notes/${id}`);
+        if (noteWithTagsResponse.ok) {
+            const noteWithTags = await noteWithTagsResponse.json();
+            dispatch(editNoteAction(noteWithTags)); // Dispatch with the note including its tags
+        }
+
         dispatch(getOneNotebook(noteData.notebookId));
         return updatedNote;
     } else {
@@ -160,7 +163,11 @@ const notesReducer = (state = initialState, action) => {
             return newState;
         }
         case EDIT_NOTE:
-            return { ...state, [action.note.id]: action.note };
+            return { ...state, [action.note.id]: {
+                ...state[action.note.id],
+                ...action.note, // Merge the updated note details
+                Tags: action.note.Tags || [] // Ensure tags are also updated
+            }};
         case DELETE_NOTE: {
             const newState = { ...state };
             delete newState[action.noteId];

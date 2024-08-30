@@ -90,7 +90,11 @@ router.put('/:id', requireAuth, validateNote, async(req, res) => {
 
     try {
         await note.save();
-        res.json(note);
+        // Fetch the updated note with tags
+        const updatedNote = await Note.findByPk(id, {
+            include: [{ model: Tag, as: 'Tags', through: { attributes: [] } }]
+        });
+        res.json(updatedNote);
     } catch (error) {
         res.status(400).json({ errors: error.errors.map(e => e.message) });
     }
