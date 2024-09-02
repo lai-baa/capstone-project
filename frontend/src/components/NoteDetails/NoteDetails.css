@@ -1,149 +1,151 @@
-/* frontend/src/components/NoteDetails/NoteDetails.css */
-/* 
+/* General container for the note details page */
 .note-details-container {
-    max-width: 600px;
-    margin: 40px auto;
-    padding: 30px;
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    font-family: 'Arial', sans-serif;
-}
-
-.note-details-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-.note-title {
-    font-size: 1.8rem;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 10px;
-}
-
-.note-date {
-    color: #666;
-    font-size: 0.9rem;
-    margin-bottom: 20px;
-}
-
-.note-description {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: #444;
-    margin-bottom: 20px;
-}
-
-.tag-section {
-    margin-top: 20px;
-}
-
-.tags-list {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 10px;
-}
-
-.tag-item {
-    background-color: #007bff;
-    color: white;
-    border-radius: 12px;
-    padding: 6px 12px;
-    margin: 5px;
-    display: flex;
-    align-items: center;
-    font-size: 0.9rem;
-    font-weight: 500;
-}
-
-.tag-item button {
-    background: none;
-    border: none;
-    margin-left: 8px;
-    color: #ffffff;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.tag-item button:hover {
-    color: #ffdddd;
-}
-
-.add-tag-section {
-    display: flex;
-    align-items: center;
-    margin-top: 15px;
-}
-
-.add-tag-section input {
-    flex-grow: 1;
     padding: 10px;
-    font-size: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    margin-right: 10px;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
-.add-tag-section button {
-    padding: 10px 15px;
-    font-size: 1rem;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.add-tag-section button:hover {
-    background-color: #0056b3;
-}
-
-.action-buttons {
-    margin-top: 30px;
+/* Styling for the header section */
+.header-container {
     display: flex;
-    gap: 10px;
-}
-
-.action-buttons button {
-    padding: 10px 20px;
-    font-size: 1rem;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.action-buttons button:hover {
-    background-color: #0056b3;
-}
-
-.action-buttons .delete-btn {
-    background-color: #dc3545;
-}
-
-.action-buttons .delete-btn:hover {
-    background-color: #c82333;
-}
-
-.back-button {
-    font-size: 1rem;
-    background-color: transparent;
-    color: #007bff;
-    border: none;
-    cursor: pointer;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 20px;
+}
+
+/* Styling for the note title */
+.note-title {
+    font-size: 28px;
     font-weight: bold;
-    transition: color 0.3s ease;
+    margin: 0;
+}
+
+/* Back to Notes button styling */
+.back-button {
+    background-color: #6a1b9a;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #fff;
+    transition: background-color 0.2s ease-in-out;
 }
 
 .back-button:hover {
-    color: #0056b3;
-} */
+    background-color: #8e24aa;
+}
+
+/* Styling for the date of the note */
+.note-date {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 15px;
+}
+
+/* Description section styling */
+.note-description {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* Tag section container */
+.tag-section {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Styling for the list of tags */
+.tags-list {
+    list-style-type: none; /* Removes bullet points from the list */
+    padding: 0;
+    margin: 0; /* Reset margin */
+    display: flex;
+    flex-direction: column; /* Ensures tags are stacked vertically */
+    gap: 10px; /* Adds space between each tag item */
+}
+
+/* Tag item styling */
+.tag-item {
+    display: flex; /* Aligns the tag name and delete button horizontally */
+    align-items: center; /* Centers items vertically within the flex container */
+}
+
+/* Styling for the delete button next to each tag */
+.tag-item button {
+    background-color: #ef5350;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 10px; /* Adds space between the tag name and the delete button */
+}
+
+.tag-item button:hover {
+    background-color: #d32f2f;
+}
+
+/* Add tag input section styling */
+.add-tag-section {
+    display: flex; /* Aligns the input and button horizontally */
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.add-tag-section input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px; /* Adds spacing between the input and the button */
+}
+
+.add-tag-section button {
+    background-color: #6a1b9a;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.add-tag-section button:hover {
+    background-color: #8e24aa;
+}
+
+/* Action buttons container styling */
+.action-buttons {
+    display: flex; /* Aligns the buttons horizontally */
+    justify-content: space-between; /* Spreads out the buttons */
+    margin-top: 20px;
+}
+
+.action-buttons button {
+    background-color: #6a1b9a; /* Example color for Edit Note button */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+/* Edit Note button hover effect */
+.action-buttons button:hover {
+    background-color: #8e24aa;
+}
+
+/* Delete button styling */
+.delete-btn {
+    background-color: #ef5350; /* Example color for Delete Note button */
+}
+
+.delete-btn:hover {
+    background-color: #d32f2f;
+}

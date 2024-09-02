@@ -61,9 +61,37 @@
     margin-top: auto;
 }
 
-button {
-    margin: 5px;
+/* Styling for "Create a New Note" and "Back to All Notebooks" buttons */
+.header-container button {
+    background-color: #6a1b9a; /* Purple color */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 16px;
     cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.header-container button:hover {
+    background-color: #8e24aa; /* Darker purple on hover */
+}
+
+/* Styling for "Edit" and "Delete" buttons in Notebook Details */
+.note-item-buttons button {
+    background-color: #6a1b9a; /* Purple color */
+    color: white;
+    border: none;
+    padding: 5px 10px; /* Smaller padding to keep buttons compact */
+    border-radius: 4px;
+    font-size: 14px; /* Smaller font size to fit within the note item */
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    margin-right: 5px; /* Adds space between Edit and Delete buttons */
+}
+
+.note-item-buttons button:hover {
+    background-color: #8e24aa; /* Darker purple on hover */
 }
 
 /* Media query for responsiveness */

@@ -124,7 +124,7 @@ function SignupFormModal() {
           disabled={Object.keys(errors).length > 0}
           className={Object.keys(errors).length > 0 ? 'disabled' : ''}
         >
-          Signup
+          Sign Up
         </button>
       </form>
     </div>

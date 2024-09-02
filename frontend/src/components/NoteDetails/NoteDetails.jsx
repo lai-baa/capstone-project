@@ -58,9 +58,12 @@ function NoteDetails() {
 
     return (
         <div className="note-details-container">
-            <button className="back-button" onClick={() => navigate(`/notebooks/${note.notebookId}`)}>Back to Notes</button>
-            <h1 className="note-title">{note.title}</h1>
+            <div className="header-container">
+                <h1 className="note-title">{note.title}</h1>
+                <button className="back-button" onClick={() => navigate(`/notebooks/${note.notebookId}`)}>Back to Notes</button>
+            </div>
             <p className="note-date">{formatDate(note.updatedAt)}</p>
+            <h3>Details:</h3>
             <p className="note-description">{note.description}</p>
             <div className="tag-section">
                 <h3>Tags:</h3>
@@ -68,7 +71,7 @@ function NoteDetails() {
                     <ul className="tags-list">
                         {note.Tags.map(tag => (
                             <li className="tag-item" key={tag.id}>
-                                {tag.name}
+                                <span>{tag.name}</span>
                                 <button onClick={() => handleDeleteTag(tag.id)}>Delete</button>
                             </li>
                         ))}

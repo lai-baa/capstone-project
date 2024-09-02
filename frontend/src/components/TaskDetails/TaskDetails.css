@@ -1,0 +1,90 @@
+/* General container for the task details page */
+.task-details-container {
+    padding: 10px; /* Adds padding around the entire page */
+    max-width: 700px; /* Same max-width as note details for consistency */
+    margin: 0 auto;
+}
+
+/* Styling for the header section */
+.task-header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Styling for the task title */
+.task-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* Back to Tasks button styling */
+.back-to-tasks-button {
+    background-color: #6a1b9a;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #fff; /* Button text color */
+    transition: background-color 0.2s ease-in-out;
+}
+
+.back-to-tasks-button:hover {
+    background-color: #8e24aa;
+}
+
+/* Styling for the date of the task */
+.task-date {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 15px;
+}
+
+/* Description section styling */
+.task-description {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* Priority section styling */
+.task-priority {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* Action buttons container styling */
+.task-action-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.task-action-buttons button {
+    background-color: #6a1b9a;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+/* Edit Task button hover effect */
+.task-action-buttons button:hover {
+    background-color: #8e24aa;
+}
+
+/* Delete button styling */
+.task-delete-btn {
+    background-color: #ef5350; /* Example color for Delete Task button */
+}
+
+.task-delete-btn:hover {
+    background-color: #d32f2f;
+}

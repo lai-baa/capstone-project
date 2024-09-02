@@ -1,8 +1,8 @@
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import "./LandingPage.css"
+import "./LandingPage.css";
 
-function LandingPage () {
+function LandingPage() {
     const sessionUser = useSelector(state => state.session.user);
     const navigate = useNavigate();
 
@@ -11,8 +11,8 @@ function LandingPage () {
           {sessionUser ? (
             <div>
                 <h1>Welcome back, {sessionUser.firstName}!</h1>
-                <button onClick={() => navigate(`/notebooks`)}>View notebooks</button>
-                <button onClick={() => navigate(`/tasks`)}>View tasks</button>
+                <button className="view-button" onClick={() => navigate(`/notebooks`)}>View Notebooks</button>
+                <button className="view-button" onClick={() => navigate(`/tasks`)}>View Tasks</button>
             </div>
           ) : (
             <>

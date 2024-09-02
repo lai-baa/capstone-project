@@ -1,26 +1,29 @@
-/* frontend/src/components/Home.css */
-
+/* General container styling for the home page */
 .home-container {
   text-align: center;
   padding: 20px;
 }
 
+/* Heading styling */
 .home-container h1 {
   font-size: 2.5rem;
   margin-bottom: 20px;
 }
 
+/* Paragraph styling */
 .home-container p {
   font-size: 1.25rem;
   line-height: 1.5;
 }
 
+/* Features container styling */
 .features-container {
   display: flex;
   justify-content: space-around;
   margin-top: 40px;
 }
 
+/* Feature item styling */
 .feature-item {
   flex: 1;
   max-width: 22%;
@@ -28,18 +31,38 @@
   padding: 10px;
 }
 
+/* Feature item image styling */
 .feature-item img {
   width: 50px;
   height: 50px;
   margin-bottom: 15px;
 }
 
+/* Feature item heading styling */
 .feature-item h2 {
   font-size: 1.5rem;
   margin-bottom: 10px;
 }
 
+/* Feature item paragraph styling */
 .feature-item p {
   font-size: 1rem;
   line-height: 1.5;
+}
+
+/* View button styling, similar to action-buttons on the note details page */
+.view-button {
+  background-color: #6a1b9a; /* Light purple color */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 10px; /* Adds some space around the buttons */
+  transition: background-color 0.2s ease-in-out;
+}
+
+.view-button:hover {
+  background-color: #8e24aa; /* Darker purple color on hover */
 }

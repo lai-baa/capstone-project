@@ -63,8 +63,8 @@ const TasksList = () => {
                             </div>
                             <div>
                                 {/* Pass the click event to prevent propagation */}
-                                <button onClick={(event) => openEditTaskModal(event, task)}>Edit</button>
-                                <button onClick={(event) => openDeleteTaskModal(event, task.id)}>Delete</button>
+                                <button className="edit-button" onClick={(event) => openEditTaskModal(event, task)}>Edit</button>
+                                <button className="delete-button" onClick={(event) => openDeleteTaskModal(event, task.id)}>Delete</button>
                             </div>
                         </div>
                     ))}

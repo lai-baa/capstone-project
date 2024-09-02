@@ -1,6 +1,6 @@
 /* Wrapper for the entire page */
 .page-wrapper {
-    padding: 0px; 
+    padding: 0 20px; /* Add padding to the sides */
     max-width: 1300px;
     margin: 0 auto;
 }
@@ -10,7 +10,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0px;
+    margin-bottom: 20px;
 }
 
 /* Grid layout for notebooks */
@@ -44,15 +44,37 @@
     transform: scale(1.05);
 }
 
-button {
-    margin-top: 10px;
+/* Styling for "Create a New Notebook" button */
+.header-container button {
+    background-color: #6a1b9a; /* Purple color */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
 }
 
-.no-notebooks-message {
-    font-size: 16px;
-    color: #555;
-    text-align: center;
-    margin-top: 20px;
+.header-container button:hover {
+    background-color: #8e24aa; /* Darker purple on hover */
+}
+
+/* Styling for "Edit" and "Delete" buttons in Notebooks */
+.notebook-item button {
+    background-color: #6a1b9a; /* Purple color */
+    color: white;
+    border: none;
+    padding: 5px 10px; /* Smaller padding to keep buttons compact */
+    border-radius: 4px;
+    font-size: 14px; /* Smaller font size to fit within the notebook item */
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    margin-right: 5px; /* Adds space between Edit and Delete buttons */
+}
+
+.notebook-item button:hover {
+    background-color: #8e24aa; /* Darker purple on hover */
 }
 
 /* Media queries for responsive grid */

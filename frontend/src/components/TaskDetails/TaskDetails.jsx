@@ -5,6 +5,7 @@ import { getTaskDetails } from '../../store/task';
 import EditTaskModal from '../EditTaskModal/EditTaskModal';
 import DeleteTaskModal from '../DeleteTaskModal/DeleteTaskModal';
 import { useModal } from '../../context/Modal';
+import "./TaskDetails.css";
 
 function formatDate(dateString) {
     const date = new Date(dateString);
@@ -45,14 +46,18 @@ const TaskDetails = () => {
     if (!task) return <p>Loading...</p>;
 
     return (
-        <div>
-            <button onClick={() => navigate(`/tasks`)}>Back to Tasks</button>
-            <h1>{task.title}</h1>
-            <p>Due Date: {formatDate(task.dueDate)}</p>
-            <p>Details: {task.description}</p>
-            <p>Priority: {task.priority}</p>
-            <button onClick={() => openEditTaskModal(task)}>Edit</button>
-            <button onClick={() => openDeleteTaskModal(task.id)}>Delete</button> {/* Updated delete button */}
+        <div className="task-details-container">
+            <div className="task-header-container">
+                <h1 className="task-title">{task.title}</h1>
+                <button className="back-to-tasks-button" onClick={() => navigate(`/tasks`)}>Back to Tasks</button>
+            </div>
+            <p className="task-date">Due Date: {formatDate(task.dueDate)}</p>
+            <p className="task-description">Details: {task.description}</p>
+            <p className="task-priority">Priority: {task.priority}</p>
+            <div className="task-action-buttons">
+                <button onClick={() => openEditTaskModal(task)}>Edit</button>
+                <button className="task-delete-btn" onClick={() => openDeleteTaskModal(task.id)}>Delete</button>
+            </div>
         </div>
     );
 };
