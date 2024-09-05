@@ -47,7 +47,7 @@ const CreateTaskModal = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log('Priority submitted:', priority);
+    // console.log('Priority submitted:', priority);
 
     if (Object.keys(errors).length === 0) {
       const newTask = { title, description, dueDate, priority };

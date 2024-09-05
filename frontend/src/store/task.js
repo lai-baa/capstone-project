@@ -121,7 +121,7 @@ export const deleteTask = (taskId) => async (dispatch) => {
 export const getReminders = () => async (dispatch) => {
     const response = await csrfFetch('/api/tasks/reminders');
     if (response.ok) {
-        console.log("IN THUNK >>>>>>>>>>>>>>>>")
+        // console.log("IN THUNK >>>>>>>>>>>>>>>>")
         // console.log("RES >>>>>>>>>>>>>>", response)
         const data = await response.json();
         // console.log(">>>>>>>>>>>>>", data)

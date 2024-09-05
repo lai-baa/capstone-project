@@ -60,7 +60,7 @@ router.get('/:id', requireAuth, async (req, res) => {
 
 // Create a new notebook
 router.post('/', requireAuth, validateNotebook, async (req, res) => {
-    console.log('Request Body:', req.body);  // Debugging line
+    // console.log('Request Body:', req.body);  // Debugging line
     const { name } = req.body;
     const ownerId = req.user.id;
 

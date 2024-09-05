@@ -41,7 +41,7 @@ router.get('/:id', requireAuth, async(req, res) => {
         }
 
         if (note.ownerId !== userId) {
-            return res.status(404).json({ message: 'You do not have access to this note.' });
+            return res.status(403).json({ message: 'You do not have access to this note.' });
         }
 
         res.json(note);
@@ -55,10 +55,10 @@ router.get('/:id', requireAuth, async(req, res) => {
 router.post('/', requireAuth, validateNote, async (req, res) => {
     const { title, description, notebookId } = req.body;
     const ownerId = req.user.id;
-    console.log("Received data:", { title, description, notebookId });
+    // console.log("Received data:", { title, description, notebookId });
     
     if (!title || !description || !notebookId) {
-        console.log("Missing required fields");
+        // console.log("Missing required fields");
         return res.status(400).json({ message: 'All fields are required.' });
     }
 
@@ -66,7 +66,7 @@ router.post('/', requireAuth, validateNote, async (req, res) => {
         const note = await Note.create({ title, description, notebookId, ownerId });
         return res.json(note);
     } catch (error) {
-        console.log("Error creating note:", error);
+        // console.log("Error creating note:", error);
         return res.status(400).json({ errors: error.errors.map(e => e.message) });
     }
 });
@@ -82,7 +82,7 @@ router.put('/:id', requireAuth, validateNote, async(req, res) => {
     }
     
     if (note.ownerId !== req.user.id) {
-        return res.status(404).json({ message: 'You do not have access to this note.' });
+        return res.status(403).json({ message: 'You do not have access to this note.' });
     }
 
     note.title = title;
@@ -141,8 +141,12 @@ router.post('/:id/tags', requireAuth, async (req, res) => {
     try {
         // Find the note by ID
         const note = await Note.findByPk(id);
-        if (!note || note.ownerId !== userId) {
-            return res.status(404).json({ message: 'Note not found or you do not have access.' });
+        if (!note) {
+            return res.status(404).json({ message: 'Note not found.' });
+        }
+
+        if (note.ownerId !== userId) {
+            return res.status(403).json({ message: 'You do not have access to this note.' });
         }
 
         // Check if the tag already exists
@@ -177,15 +181,23 @@ router.delete('/:noteId/tags/:tagId', requireAuth, async (req, res) => {
             include: [{ model: Tag, as: 'Tags' }]
         });
 
-        if (!note || note.ownerId !== userId) {
-            return res.status(404).json({ message: 'Note not found or you do not have access.' });
+        if (!note) {
+            return res.status(404).json({ message: 'Note not found.' });
+        }
+
+        if (note.ownerId !== userId) {
+            return res.status(403).json({ message: 'You do not have access to this note.' });
         }
 
         // Find the tag to be removed
         const tag = await Tag.findByPk(tagId);
 
-        if (!tag || tag.userId !== userId) {
-            return res.status(404).json({ message: 'Tag not found or you do not have access.' });
+       if (!tag) {
+            return res.status(404).json({ message: 'Tag not found.' });
+        }
+
+        if (tag.userId !== userId) {
+            return res.status(403).json({ message: 'You do not have access to this tag.' });
         }
 
         // Remove the tag association with the note
