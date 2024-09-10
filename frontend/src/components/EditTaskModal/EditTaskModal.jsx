@@ -1,7 +1,7 @@
 // frontend/src/components/EditTaskModal/EditTaskModal.jsx
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { editTask } from '../../store/task';
+import { editTask, getAllTasks, getCompletedTasks } from '../../store/task';
 import './EditTaskModal.css';
 
 const EditTaskModal = ({ task, closeModal }) => {
