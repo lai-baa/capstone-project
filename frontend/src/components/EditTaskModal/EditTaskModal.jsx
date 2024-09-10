@@ -55,6 +55,12 @@ const EditTaskModal = ({ task, closeModal }) => {
       } else {
         closeModal();
       }
+
+      if (completed) {
+        dispatch(getCompletedTasks());
+      } else {
+        dispatch(getAllTasks());
+      }
     }
   };
 

@@ -56,6 +56,19 @@ router.get('/reminders', requireAuth, async (req, res) => {
     }
 });
 
+// Get all completed tasks of a user
+router.get('/completed', requireAuth, async (req, res) => {
+    try {
+        const tasks = await Task.findAll({
+            where: { userId: req.user.id, completed: true },  // Only fetch completed tasks
+        });
+        return res.json(tasks);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Failed to fetch completed tasks.' });
+    }
+});
+
 // Get all tasks of a user
 router.get("/", requireAuth, async(req, res) => {
     try {

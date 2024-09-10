@@ -20,6 +20,26 @@ li {
     display: flex;
 }
 
+.nav-links {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-grow: 1;
+}
+
+.nav-link {
+    text-decoration: none;
+    font-weight: bold;
+    color: blueviolet;
+    padding: 5px;
+}
+
+.nav-link:hover {
+    background-color: blueviolet;
+    color: white;
+    border-radius: 4px;
+}
+
 /* Profile dropdown styling */
 .profile-dropdown {
     display: block;

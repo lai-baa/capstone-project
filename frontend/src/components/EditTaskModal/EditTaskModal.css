@@ -18,10 +18,11 @@
 }
 
 .modal-form {
-    display: flex;
-    flex-direction: column;
-    gap: 5px; /* Reduce gap between form elements */
-    margin: 0 auto;
+    position: relative;
+    z-index: 1000;
+    background-color: white;
+    max-height: 90vh; /* Prevents the modal from going off the page */
+    overflow-y: auto; /* Allows scrolling if content exceeds height */
 }
 
 .modal-label {
@@ -39,7 +40,8 @@
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    margin-top: 4px; /* Reduce margin to save space */
+    margin-top: 2px;
+    margin-bottom: 10px;
 }
 
 .completed-container {

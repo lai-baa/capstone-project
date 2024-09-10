@@ -11,6 +11,7 @@ import TasksList from './components/TasksList/TasksList';
 import TaskDetails from './components/TaskDetails/TaskDetails';
 import Favorites from './components/Favorites/Favorites';
 import Reminders from './components/Reminders/Reminders';
+import CompletedTasks from './components/CompletedTasks/CompletedTasks';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
       {
         path: '/reminders',
         element: <Reminders />
+      },
+      {
+        path: '/tasks/completed',
+        element: <CompletedTasks />
       }
     ]
   }

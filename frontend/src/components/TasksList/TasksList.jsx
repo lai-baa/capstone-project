@@ -11,7 +11,7 @@ import './TasksList.css';
 
 const selectTasks = createSelector(
   state => state.tasks,
-  tasks => Object.values(tasks)
+  tasks => Object.values(tasks).filter(task => !task.completed)
 );
 
 const TasksList = () => {

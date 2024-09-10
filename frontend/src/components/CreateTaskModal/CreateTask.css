@@ -22,6 +22,7 @@
     flex-direction: column;
     gap: 5px; /* Reduce gap between form elements */
     margin: 0 auto;
+    /* z-index: 1000; */
 }
 
 .modal-label {
@@ -35,11 +36,13 @@
 .task-modal-input,
 .task-modal-textarea,
 .task-modal-select {
-    width: 96%;
+    width: 100%; /* Ensure the inputs take full width of the parent */
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    margin-top: 4px; /* Reduce margin to save space */
+    margin-top: 2px;
+    margin-bottom: 10px;
+    box-sizing: border-box; /* Ensures padding and border are included in the width */
 }
 
 .error-message {

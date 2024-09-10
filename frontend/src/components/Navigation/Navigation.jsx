@@ -1,22 +1,29 @@
 // frontend/src/components/Navigation/Navigation.jsx
 
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
-import { GiNotebook } from "react-icons/gi";
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
 
   return (
-    <ul>
+    <ul className='nav-links-container'>
       <li id="nav-link-home">
         <NavLink to="/">
-            <div id="site-icon"><GiNotebook /></div>
-            KayKew
+        <img src="/favicon.ico" alt="KayKew" className="nav_icon" />
         </NavLink>
       </li>
+      
+      <div className='nav-links'>
+          <Link to="/notebooks" className="nav-link">All Notebooks</Link>
+          <Link to="/tasks" className="nav-link">Pending Tasks</Link>
+          <Link to="/reminders" className="nav-link">Reminders</Link>
+          <Link to="/favorites" className="nav-link">Favorites</Link>
+          <Link to="/tasks/completed" className="nav-link">Completed Tasks</Link>
+      </div>
+
       {isLoaded && (
         <li>
           <ProfileButton user={sessionUser} />

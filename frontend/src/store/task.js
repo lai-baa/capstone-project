@@ -8,6 +8,7 @@ const CREATE_TASK = 'tasks/CREATE_TASK';
 const EDIT_TASK = 'tasks/EDIT_TASK';
 const DELETE_TASK = 'tasks/DELETE_TASK';
 const GET_REMINDERS = 'tasks/GET_REMINDERS';
+const GET_COMPLETED_TASKS = 'tasks/GET_COMPLETED_TASKS';
 
 // Actions
 const getTasksAction = (tasks) => ({
@@ -37,6 +38,11 @@ const deleteTaskAction = (taskId) => ({
 
 const getAllReminders = (tasks) => ({
     type: GET_REMINDERS,
+    tasks,
+});
+
+const getCompletedTasksAction = (tasks) => ({
+    type: GET_COMPLETED_TASKS,
     tasks,
 });
 
@@ -133,6 +139,19 @@ export const getReminders = () => async (dispatch) => {
     }
 };
 
+// Get completed tasks thunk
+export const getCompletedTasks = () => async (dispatch) => {
+    const response = await csrfFetch('/api/tasks/completed');
+
+    if (response.ok) {
+        const tasks = await response.json();
+        dispatch(getCompletedTasksAction(tasks));
+    } else {
+        const error = await response.json();
+        return error;
+    }
+};
+
 // Initial state
 const initialState = {};
 
@@ -166,6 +185,13 @@ const tasksReducer = (state = initialState, action) => {
                 reminders[task.id] = task;
             });
             return { ...state, ...reminders };
+        }
+        case GET_COMPLETED_TASKS: {
+            const completedTasks = {};
+            action.tasks.forEach(task => {
+                completedTasks[task.id] = task;
+            });
+            return { ...state, ...completedTasks };
         }
         default:
             return state;
