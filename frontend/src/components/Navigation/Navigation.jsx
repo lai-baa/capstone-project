@@ -12,7 +12,7 @@ function Navigation({ isLoaded }) {
     <ul className='nav-links-container'>
       <li id="nav-link-home">
         <NavLink to="/">
-        <img src="/favicon.ico" alt="KayKew" className="nav_icon" />
+        <img src="/favicon.ico" alt="KayKewNotes" className="nav_icon" />
         </NavLink>
       </li>
       

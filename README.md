@@ -1,8 +1,8 @@
-# Capstone Project: KayKew
+# Capstone Project: KayKewNotes
 
-KayKew is a comprehensive web application designed to help users effectively organize their personal and professional lives by managing their notes, tasks, and reminders all in one place. Inspired by the need for a streamlined, user-friendly digital workspace, KayKew combines the best features of popular note-taking and task management apps while providing a clean, intuitive interface. Whether you are a student, professional, or someone looking to manage daily to-dos, KayKew aims to simplify the process of keeping your thoughts and tasks in order. Experience the ease of creating, organizing, and tracking your notes and tasks with KayKew!
+KayKewNotes is a comprehensive web application designed to help users effectively organize their personal and professional lives by managing their notes, tasks, and reminders all in one place. Inspired by the need for a streamlined, user-friendly digital workspace, Notes combines the best features of popular note-taking and task management apps while providing a clean, intuitive interface. Whether you are a student, professional, or someone looking to manage daily to-dos, KayKewNotes aims to simplify the process of keeping your thoughts and tasks in order. Experience the ease of creating, organizing, and tracking your notes and tasks with KayKewNotes!
 
-Check out the live version of KayKew here: [KayKew](https://aa-capstone-project.onrender.com/)
+Check out the live version of KayKewNotes here: [KayKewNotes](https://aa-capstone-project.onrender.com/)
 
 ## Index
 
@@ -36,3 +36,41 @@ Check out the live version of KayKew here: [KayKew](https://aa-capstone-project.
 
 
 ## Screenshots
+**Landing Page** ![Landing Page](./frontend/public/screenshots/landing-page.png)
+
+### Notebooks
+**Notebooks List** ![Notebooks List Page](./frontend/public/screenshots/notebooks-list.png)
+
+**Notebook Details/Notes List** ![Notebooks Details/Notes List Page](./frontend/public/screenshots/notebook-details-notes-list.png)
+
+**Create Notebook Modal** ![Create Notebook Modal](./frontend/public/screenshots/create-notebook-modal.png)
+
+**Edit Notebook Modal** ![Edit Notebook Modal](./frontend/public/screenshots/edit-notebook-modal.png)
+
+**Delete Notebook Modal** ![Delete Notebook Modal](./frontend/public/screenshots/delete-notebook-modal.png)
+
+**Favorite Notebooks Page** ![Favorite Notebooks Page](./frontend/public/screenshots/favorite-notebooks.png)
+
+### Notes
+**Note Details Page** ![Note Details Page](/frontend/public/screenshots/note-details.png)
+
+**Create Note Modal** ![Create Note Modal](/frontend/public/screenshots/create-note-modal.png)
+
+**Edit Note Modal** ![Edit Note Modal](/frontend/public/screenshots/edit-note-modal.png)
+
+**Delete Note Modal** ![Delete Note Modal](/frontend/public/screenshots/delete-note-modal.png)
+
+### Tasks
+**Tasks List** ![Tasks List Page](/frontend/public/screenshots/tasks-list.png)
+
+**Task Details** ![Task Details Page](/frontend/public/screenshots/task-details.png)
+
+**Create Task Modal** ![Create Task Modal](/frontend/public/screenshots/create-task-modal.png)
+
+**Edit Task Modal** ![Edit Task Modal](/frontend/public/screenshots/edit-task-modal.png)
+
+**Delete Task Modal** ![Delete Task Modal](/frontend/public/screenshots/delete-task-modal.png)
+
+**Reminders Page** ![Reminders Page](/frontend/public/screenshots/reminders.png)
+
+**Completed Tasks Page** ![Completed Tasks Page](/frontend/public/screenshots/completed-tasks.png)
