@@ -32,26 +32,28 @@ const Reminders = () => {
         });
     }, [tasks]);
 
-    if (!reminderTasks.length) {
-        return <div>No tasks due in the next 5 days.</div>;
-    }
-
     return (
         <div className="page-wrapper">
             <div className="header-container">
                 <h1>Your Reminders</h1>
                 <button onClick={() => navigate("/tasks")}>View All Tasks</button>
             </div>
-            <div className="reminders-container">
-                {reminderTasks.map(task => (
-                    <div key={task.id} className="reminder-item" onClick={() => navigate(`/tasks/${task.id}`)}>
-                        <div>
-                            <h2 className="reminder-title">{task.title}</h2>
-                            <p>Due Date: {formatDate(task.dueDate)}</p>
+            
+            {/* Display "No reminders" message when there are no reminders */}
+            {reminderTasks.length === 0 ? (
+                <div className="no-reminders">You have no reminders.</div>
+            ) : (
+                <div className="reminders-container">
+                    {reminderTasks.map(task => (
+                        <div key={task.id} className="reminder-item" onClick={() => navigate(`/tasks/${task.id}`)}>
+                            <div>
+                                <h2 className="reminder-title">{task.title}</h2>
+                                <p>Due Date: {formatDate(task.dueDate)}</p>
+                            </div>
                         </div>
-                    </div>
-                ))}
-            </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };
