@@ -20,7 +20,7 @@ li {
     display: flex;
 }
 
-.nav-links {
+/* .nav-links {
     display: flex;
     justify-content: center;
     gap: 30px;
@@ -38,7 +38,7 @@ li {
     background-color: blueviolet;
     color: white;
     border-radius: 4px;
-}
+} */
 
 /* Profile dropdown styling */
 .profile-dropdown {
@@ -163,4 +163,22 @@ li {
 .link-style-button:hover,
 .modal-link-button:hover {
     color: inherit; /* No color change on hover */
+}
+
+/* Toggle button for opening/closing the sidebar */
+.toggle-button {
+    position: absolute;
+    top: 25px;
+    left: 10px; /* Default position when sidebar is closed */
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    z-index: 1100;
+    padding: 10px;
+    transition: left 0.3s ease-in-out;
+}
+  
+.toggle-button.open {
+    left: 250px; /* Adjust left position when sidebar is open */
 }
