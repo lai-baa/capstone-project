@@ -22,8 +22,8 @@
 .sidebar-links {
   margin-top: 50px;
   display: flex;
-  flex-direction: column; /* Stack the links vertically */
-  gap: 20px; /* Add space between each link */
+  flex-direction: column;
+  gap: 20px;
 }
 
 .nav-link {
@@ -42,8 +42,8 @@
 }
 
 .nav-link-name {
-  padding: 5px 0; /* Add padding around the text */
-  margin: 0; /* Remove margin to keep the text close to the link */
+  padding: 5px 0;
+  margin: 0;
 }
 
 /* Hide the links when the sidebar is closed */
@@ -54,20 +54,20 @@
 /* Styling for the toggle button */
 .toggle-button {
   position: fixed;
-  top: 60px;  /* Adjust to move it down below the logo */
-  left: 10px; /* Aligns the button to the very left when closed */
-  background-color: white;  /* Adds white background */
-  padding: 5px;  /* Adds space around the button */
-  border-radius: 50%;  /* Makes the button round */
-  border: 1px solid lightgrey;  /* Adds a light border */
+  top: 60px;
+  left: 0px;
+  background-color: white;
+  padding: 5px;
+  border-radius: 10%;
+  border: 1px solid lightgrey;
   cursor: pointer;
   font-size: 24px;
   z-index: 1100;
   transition: left 0.3s ease-in-out;
-  box-shadow: 0px 1px 5px 0.75px lightgray; /* Adds a shadow */
+  box-shadow: 0px 1px 5px 0.75px lightgray;
 }
 
 /* Move the button when the sidebar is open */
 .sidebar.open ~ .toggle-button {
-  left: 280px;  /* Adjust based on the sidebar width */
+  left: 280px;
 }
