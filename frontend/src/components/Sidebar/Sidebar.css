@@ -1,0 +1,53 @@
+/* Sidebar when it's open */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 250px;
+  background-color: #f8f8f8;
+  padding: 20px;
+  transition: transform 0.3s ease-in-out;
+  z-index: 1000;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Sidebar hidden off-screen when it's closed */
+.sidebar.closed {
+  transform: translateX(-100%);
+  width: 0;
+}
+
+/* Toggle button for closing the sidebar */
+.toggle-button {
+  position: absolute;
+  top: 20px;
+  left: 240px; /* This should match the width of the sidebar when open */
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  z-index: 1100;
+  transition: left 0.3s ease-in-out;
+}
+
+/* Adjust the button position when sidebar is closed */
+.sidebar.closed .toggle-button {
+  left: 10px;
+}
+
+/* Sidebar links */
+.sidebar-links {
+  margin-top: 50px;
+}
+
+.nav-link {
+  display: block;
+  margin-bottom: 20px;
+  text-decoration: none;
+  color: #333;
+}
+
+.nav-link:hover {
+  color: #666;
+}

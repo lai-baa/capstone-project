@@ -1,28 +1,27 @@
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
+import { IoChevronForwardOutline } from 'react-icons/io5';
 import './Navigation.css';
+import { useNav } from '../../context/navContext';
 
 function Navigation({ isLoaded }) {
-  const sessionUser = useSelector(state => state.session.user); // Check if the user is logged in
+  const sessionUser = useSelector((state) => state.session.user);
+  const { navOpen, toggleNav } = useNav();  // Access the nav context
 
   return (
-    <ul className='nav-links-container'>
+    <ul className="nav-links-container">
+      {sessionUser && !navOpen && ( // Only show the toggle open button when the sidebar is closed
+        <button onClick={toggleNav} className="toggle-button">
+          <IoChevronForwardOutline />
+        </button>
+      )}
+
       <li id="nav-link-home">
         <NavLink to="/">
-        <img src="/favicon.ico" alt="KayKewNotes" className="nav_icon" />
+          <img src="/favicon.ico" alt="KayKewNotes" className="nav_icon" />
         </NavLink>
       </li>
-
-      {sessionUser && ( // Only render these links when the user is logged in
-        <div className='nav-links'>
-          <Link to="/notebooks" className="nav-link">All Notebooks</Link>
-          <Link to="/tasks" className="nav-link">Pending Tasks</Link>
-          <Link to="/reminders" className="nav-link">Reminders</Link>
-          <Link to="/favorites" className="nav-link">Favorites</Link>
-          <Link to="/tasks/completed" className="nav-link">Completed Tasks</Link>
-        </div>
-      )}
 
       {isLoaded && (
         <li>

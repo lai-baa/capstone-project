@@ -12,10 +12,14 @@ import TaskDetails from './components/TaskDetails/TaskDetails';
 import Favorites from './components/Favorites/Favorites';
 import Reminders from './components/Reminders/Reminders';
 import CompletedTasks from './components/CompletedTasks/CompletedTasks';
+import Sidebar from './components/Sidebar/Sidebar';
+import { useSelector } from 'react-redux';
+import { NavProvider } from './context/navContext';
 
 function Layout() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
+  const sessionUser = useSelector(state => state.session.user);
 
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => {
@@ -25,6 +29,7 @@ function Layout() {
 
   return (
     <>
+      {sessionUser && <Sidebar user={sessionUser} />}
       <Navigation isLoaded={isLoaded} />
       {isLoaded && <Outlet />}
     </>
@@ -76,7 +81,11 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <NavProvider>
+      <RouterProvider router={router} />
+    </NavProvider>
+  )
 }
 
 export default App;
