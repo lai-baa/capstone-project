@@ -15,6 +15,7 @@ import CompletedTasks from './components/CompletedTasks/CompletedTasks';
 import Sidebar from './components/Sidebar/Sidebar';
 import { useSelector } from 'react-redux';
 import { NavProvider } from './context/navContext';
+import FilteredNotes from './components/FilteredNotes/FilteredNotes';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -75,6 +76,10 @@ const router = createBrowserRouter([
       {
         path: '/tasks/completed',
         element: <CompletedTasks />
+      },
+      {
+        path: '/search-results',
+        element: <FilteredNotes />,
       }
     ]
   }

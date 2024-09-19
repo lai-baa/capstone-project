@@ -1,4 +1,5 @@
 const express = require('express');
+const { Op } = require('sequelize');
 const { Note, Tag, NoteTag } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const { check } = require('express-validator');
@@ -19,6 +20,35 @@ const validateNote = [
       .withMessage('Note description must be less than 1000 characters.'),
     handleValidationErrors
 ];
+
+// Search notes by tag
+router.get('/search', requireAuth, async (req, res) => {
+    const { searchTerm } = req.query;
+
+    try {
+        const notes = await Note.findAll({
+            include: {
+                model: Tag,
+                as: 'Tags',
+                where: {
+                    // Use LOWER to make the comparison case-insensitive
+                    name: {
+                        [Op.like]: `%${searchTerm.toLowerCase()}%`
+                    }
+                }
+            }
+        });
+
+        if (!notes.length) {
+            return res.status(404).json({ message: 'No notes found matching the search criteria.' });
+        }
+
+        res.json(notes);
+    } catch (error) {
+        console.error('Error during search:', error);
+        res.status(500).json({ message: 'Error during search.' });
+    }
+});
 
 // Get all details for a note
 router.get('/:id', requireAuth, async(req, res) => {

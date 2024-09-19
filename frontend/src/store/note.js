@@ -8,6 +8,7 @@ const EDIT_NOTE = 'notes/EDIT_NOTE';
 const DELETE_NOTE = 'notes/DELETE_NOTE';
 const ADD_TAG_TO_NOTE = 'notes/ADD_TAG_TO_NOTE';
 const REMOVE_TAG_FROM_NOTE = 'notes/REMOVE_TAG_FROM_NOTE';
+const SEARCH_NOTES_BY_TAG = 'notes/SEARCH_NOTES_BY_TAG';
 
 // Action creator
 const getNote = (note) => ({
@@ -38,6 +39,11 @@ const addTagToNote = (note) => ({
 const removeTagFromNote = (note) => ({
     type: REMOVE_TAG_FROM_NOTE,
     note,
+});
+
+const setSearchResults = (notes) => ({
+    type: SEARCH_NOTES_BY_TAG,
+    notes,
 });
 
 // Get note by note id thunk
@@ -148,8 +154,31 @@ export const deleteTag = (noteId, tagId) => async (dispatch) => {
     }
 };
 
+// Search notes by tag thunk
+export const searchNotesByTag = (searchTerm) => async (dispatch) => {
+    try {
+        const response = await csrfFetch(`/api/notes/search?searchTerm=${searchTerm}`);
+
+        if (response.ok) {
+            const notes = await response.json();
+
+            // Dispatch the filtered notes, even if empty
+            dispatch(setSearchResults(notes));
+        } else {
+            // If no notes were found, clear the filtered notes
+            dispatch(setSearchResults([]));
+        }
+    } catch (error) {
+        // In case of an error, clear the filtered notes
+        dispatch(setSearchResults([]));
+        console.error('Error during search:', error);
+    }
+};
+
 // Initial state
-const initialState = {};
+const initialState = {
+    filtered: []
+};
 
 // Reducer
 const notesReducer = (state = initialState, action) => {
@@ -178,6 +207,12 @@ const notesReducer = (state = initialState, action) => {
         }
         case REMOVE_TAG_FROM_NOTE: {
             return { ...state, [action.note.id]: action.note };
+        }
+        case SEARCH_NOTES_BY_TAG: {
+            return {
+              ...state,
+              filtered: action.notes,
+            };
         }
         default:
             return state;
