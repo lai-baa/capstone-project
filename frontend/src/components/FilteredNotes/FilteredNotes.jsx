@@ -1,35 +1,43 @@
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import './FilteredNotes.css';
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import "./FilteredNotes.css";
 
 function FilteredNotes() {
-  const filteredNotes = useSelector(state => state.notes.filtered);
+    const filteredNotes = useSelector((state) => state.notes.filtered || []);
+    const navigate = useNavigate();
 
-  console.log('Filtered Notes:', filteredNotes);
-  
-  const navigate = useNavigate();
+    // Debug filteredNotes to ensure it changes when navigating
+    useEffect(() => {
+        console.log("Rendered filteredNotes:", filteredNotes);
+    }, [filteredNotes]);
 
-  const handleClick = (note) => {
-    navigate(`/notes/${note.id}`);
-  };
+    const handleClick = (note) => {
+        navigate(`/notes/${note.id}`);
+    };
 
-  if (!filteredNotes?.length) {
-    return <p>No notes found matching the search criteria.</p>;
-  }
-
-  return (
-    <div className="page-wrapper">
-      <h1>Search Results</h1>
-      <ul className="notes-container">
-        {filteredNotes.map(note => (
-          <li key={note.id} className="note-item" onClick={() => handleClick(note)}>
-            <h2>{note.title}</h2>
-            <p>{note.description}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+    // Remove the dispatch clearing effect during unmounting
+    return (
+        <div className="page-wrapper">
+            <h1>Search Results</h1>
+            {filteredNotes.length === 0 ? (
+                <p>No notes found matching the search criteria.</p>
+            ) : (
+                <ul className="notes-container">
+                    {filteredNotes.map((note) => (
+                        <li
+                            key={note.id}
+                            className="note-item"
+                            onClick={() => handleClick(note)}
+                        >
+                            <h2>{note.title}</h2>
+                            <p>{note.description}</p>
+                        </li>
+                    ))}
+                </ul>
+            )}
+        </div>
+    );
 }
 
 export default FilteredNotes;

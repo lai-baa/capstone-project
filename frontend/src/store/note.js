@@ -9,6 +9,7 @@ const DELETE_NOTE = 'notes/DELETE_NOTE';
 const ADD_TAG_TO_NOTE = 'notes/ADD_TAG_TO_NOTE';
 const REMOVE_TAG_FROM_NOTE = 'notes/REMOVE_TAG_FROM_NOTE';
 const SEARCH_NOTES_BY_TAG = 'notes/SEARCH_NOTES_BY_TAG';
+const CLEAR_SEARCH_RESULTS = 'notes/CLEAR_SEARCH_RESULTS';
 
 // Action creator
 const getNote = (note) => ({
@@ -41,9 +42,13 @@ const removeTagFromNote = (note) => ({
     note,
 });
 
-const setSearchResults = (notes) => ({
+export const setSearchResults = (notes) => ({
     type: SEARCH_NOTES_BY_TAG,
     notes,
+});
+
+export const clearSearchResults = () => ({
+    type: CLEAR_SEARCH_RESULTS,
 });
 
 // Get note by note id thunk
@@ -154,26 +159,19 @@ export const deleteTag = (noteId, tagId) => async (dispatch) => {
     }
 };
 
-// Search notes by tag thunk
-export const searchNotesByTag = (searchTerm) => async (dispatch) => {
-    try {
-        const response = await csrfFetch(`/api/notes/search?searchTerm=${searchTerm}`);
+export const searchNotesByTag = (tagName) => async (dispatch) => {
+    const response = await csrfFetch(`/api/notes/search?searchTerm=${tagName}`);
 
-        if (response.ok) {
-            const notes = await response.json();
-
-            // Dispatch the filtered notes, even if empty
-            dispatch(setSearchResults(notes));
-        } else {
-            // If no notes were found, clear the filtered notes
-            dispatch(setSearchResults([]));
-        }
-    } catch (error) {
-        // In case of an error, clear the filtered notes
-        dispatch(setSearchResults([]));
-        console.error('Error during search:', error);
+    if (response.ok) {
+        const notes = await response.json();
+        dispatch(setSearchResults(notes));
+        return notes;
+    } else {
+        dispatch(clearSearchResults());
+        throw new Error('Search failed');
     }
 };
+  
 
 // Initial state
 const initialState = {
@@ -194,8 +192,8 @@ const notesReducer = (state = initialState, action) => {
         case EDIT_NOTE:
             return { ...state, [action.note.id]: {
                 ...state[action.note.id],
-                ...action.note, // Merge the updated note details
-                Tags: action.note.Tags || [] // Ensure tags are also updated
+                ...action.note,
+                Tags: action.note.Tags || []
             }};
         case DELETE_NOTE: {
             const newState = { ...state };
@@ -212,6 +210,12 @@ const notesReducer = (state = initialState, action) => {
             return {
               ...state,
               filtered: action.notes,
+            };
+        }
+        case CLEAR_SEARCH_RESULTS: {
+            return {
+              ...state,
+              filtered: [],
             };
         }
         default:

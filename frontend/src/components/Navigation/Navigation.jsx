@@ -6,7 +6,7 @@ import { IoChevronBackOutline, IoChevronForwardOutline } from 'react-icons/io5';
 import { FaSearch } from 'react-icons/fa';
 import './Navigation.css';
 import { useNav } from '../../context/navContext';
-import { searchNotesByTag } from '../../store/note';
+import { searchNotesByTag, clearSearchResults } from '../../store/note'; 
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
@@ -19,9 +19,23 @@ function Navigation({ isLoaded }) {
     setSearchTerm(e.target.value);
   };
 
-  const handleSearchSubmit = () => {
+  const handleSearchSubmit = async () => {
     if (searchTerm.trim()) {
-      dispatch(searchNotesByTag(searchTerm.trim()));
+      try {
+        // Dispatch search action and wait for the results
+        const result = await dispatch(searchNotesByTag(searchTerm.trim()));
+        console.log("Dispatched search result:", result);
+
+        // Navigate only after search results are received and state is updated
+        navigate('/search-results');
+      } catch (error) {
+        console.error('Search error:', error);
+        dispatch(clearSearchResults());
+        navigate('/search-results'); // Navigate anyway to show "No results" message
+      }
+    } else {
+      // If search term is empty, clear the results
+      dispatch(clearSearchResults());
       navigate('/search-results');
     }
   };
