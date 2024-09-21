@@ -40,6 +40,11 @@ function Navigation({ isLoaded }) {
     }
   };
 
+  const handleLogoClick = () => {
+    setSearchTerm('');
+    navigate('/');
+  };
+
   return (
     <ul className="nav-links-container">
       {sessionUser && (
@@ -49,7 +54,7 @@ function Navigation({ isLoaded }) {
       )}
 
       <li id="nav-link-home">
-        <NavLink to="/">
+        <NavLink to="/" onClick={handleLogoClick}>
           <img src="/favicon.ico" alt="KayKewNotes" className="nav_icon" />
         </NavLink>
       </li>
@@ -57,12 +62,13 @@ function Navigation({ isLoaded }) {
       {sessionUser && (
         <li className="search-bar">
           <input
+            id="search-input"
             type="text"
             placeholder="Search by tags..."
             value={searchTerm}
             onChange={handleSearchChange}
           />
-          <button onClick={handleSearchSubmit}>
+          <button id="search-button" onClick={handleSearchSubmit}>
             <FaSearch />
           </button>
         </li>
