@@ -1,5 +1,4 @@
-// frontend/src/components/CreateTaskModal/CreateTaskModal.jsx
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createTask } from '../../store/task';
 import { useModal } from '../../context/Modal';
@@ -12,8 +11,8 @@ const CreateTaskModal = () => {
   const [description, setDescription] = useState('');
   const [dueDate, setDueDate] = useState('');
   const [priority, setPriority] = useState('');
-  // const [completed, setCompleted] = useState(false);
   const [errors, setErrors] = useState({});
+  const [isSubmitted, setIsSubmitted] = useState(false); // Track whether form was submitted
 
   // Get the current date in 'YYYY-MM-DD' format
   const getCurrentDate = () => {
@@ -21,7 +20,7 @@ const CreateTaskModal = () => {
     return today.toISOString().split('T')[0];
   };
 
-  useEffect(() => {
+  const validate = () => {
     const newErrors = {};
     if (!title) {
       newErrors.title = 'Title is required.';
@@ -41,15 +40,17 @@ const CreateTaskModal = () => {
     } else if (!['low', 'medium', 'high'].includes(priority)) {
       newErrors.priority = 'Priority must be Low, Medium, or High.';
     }
-    setErrors(newErrors);
-  }, [title, description, dueDate, priority]);
+    return newErrors;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitted(true); // Mark form as submitted
 
-    // console.log('Priority submitted:', priority);
+    const newErrors = validate();
+    setErrors(newErrors);
 
-    if (Object.keys(errors).length === 0) {
+    if (Object.keys(newErrors).length === 0) {
       const newTask = { title, description, dueDate, priority };
 
       const result = await dispatch(createTask(newTask));
@@ -76,7 +77,7 @@ const CreateTaskModal = () => {
             required
           />
         </label>
-        {errors.title && <p className="error-message">{errors.title}</p>}
+        {isSubmitted && errors.title && <p className="error-message">{errors.title}</p>}
 
         <label className="modal-label">
           Description
@@ -87,7 +88,7 @@ const CreateTaskModal = () => {
             required
           />
         </label>
-        {errors.description && <p className="error-message">{errors.description}</p>}
+        {isSubmitted && errors.description && <p className="error-message">{errors.description}</p>}
 
         <label className="modal-label">
           Due Date
@@ -100,7 +101,7 @@ const CreateTaskModal = () => {
             required
           />
         </label>
-        {errors.dueDate && <p className="error-message">{errors.dueDate}</p>}
+        {isSubmitted && errors.dueDate && <p className="error-message">{errors.dueDate}</p>}
 
         <label className="modal-label">
           Priority
@@ -116,7 +117,7 @@ const CreateTaskModal = () => {
             <option value="high">High</option>
           </select>
         </label>
-        {errors.priority && <p className="error-message">{errors.priority}</p>}
+        {isSubmitted && errors.priority && <p className="error-message">{errors.priority}</p>}
 
         <button className="modal-button create-button" type="submit" disabled={Object.keys(errors).length > 0}>Create Task</button>
         <button className="modal-button cancel-button" type="button" onClick={closeModal}>Cancel</button>

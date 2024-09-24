@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createNote } from '../../store/note';
 import { useModal } from '../../context/Modal';
@@ -9,9 +9,10 @@ function CreateNoteModal({ notebookId }) {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [errors, setErrors] = useState({});
+    const [isSubmitted, setIsSubmitted] = useState(false);
     const { closeModal } = useModal();
 
-    useEffect(() => {
+    const validate = () => {
         const newErrors = {};
         if (!title) {
             newErrors.title = 'Title is required.';
@@ -21,15 +22,19 @@ function CreateNoteModal({ notebookId }) {
         if (!description) {
             newErrors.description = 'Description is required.';
         }
-        setErrors(newErrors);
-    }, [title, description]);
+        return newErrors;
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (Object.keys(errors).length === 0) {
-            const newNote = { title, description, notebookId };
+        setIsSubmitted(true);
+        const newErrors = validate();
+        setErrors(newErrors);
 
+        // Proceed only if there are no errors
+        if (Object.keys(newErrors).length === 0) {
+            const newNote = { title, description, notebookId };
             const result = await dispatch(createNote(newNote));
 
             if (result.errors) {
@@ -54,7 +59,8 @@ function CreateNoteModal({ notebookId }) {
                 required
               />
             </label>
-            {errors.title && <p className="note-error-message">{errors.title}</p>}
+            {isSubmitted && errors.title && <p className="note-error-message">{errors.title}</p>}
+            
             <label className="note-modal-label">
               Description
               <textarea
@@ -64,7 +70,8 @@ function CreateNoteModal({ notebookId }) {
                 required
               />
             </label>
-            {errors.description && <p className="note-error-message">{errors.description}</p>}
+            {isSubmitted && errors.description && <p className="note-error-message">{errors.description}</p>}
+            
             <button className="note-modal-button note-create-button" type="submit">
               Create Note
             </button>

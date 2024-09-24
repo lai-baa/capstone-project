@@ -1,5 +1,3 @@
-// frontend/src/components/SignupFormPage/SignupFormPage.jsx
-
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal.jsx';
@@ -15,9 +13,12 @@ function SignupFormModal() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [isSubmitted, setIsSubmitted] = useState(false); 
+  const [isFormComplete, setIsFormComplete] = useState(false);
   const { closeModal } = useModal();
 
-  useEffect(() => {
+  // Validation function
+  const validate = () => {
     const newErrors = {};
 
     if (!email) newErrors.email = 'Email is required.';
@@ -29,13 +30,35 @@ function SignupFormModal() {
     if (!firstName) newErrors.firstName = 'First Name is required.';
     if (!lastName) newErrors.lastName = 'Last Name is required.';
     
-    setErrors(newErrors);
-  }, [email, username, password, confirmPassword, firstName, lastName]);
+    return newErrors;
+  };
 
+  // UseEffect to track if all form fields are filled out
+  useEffect(() => {
+    if (
+      email && 
+      username && 
+      firstName && 
+      lastName && 
+      password && 
+      confirmPassword
+    ) {
+      setIsFormComplete(true);
+    } else {
+      setIsFormComplete(false);
+    }
+  }, [email, username, firstName, lastName, password, confirmPassword]);
+
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (Object.keys(errors).length === 0) {
+    setIsSubmitted(true); 
+
+    const newErrors = validate(); 
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
       const payload = {
         username,
         firstName,
@@ -53,7 +76,7 @@ function SignupFormModal() {
           }
         });
     }
-  }
+  };
 
   return (
     <div className='sign-up-div'>
@@ -67,7 +90,7 @@ function SignupFormModal() {
             onChange={(e) => setEmail(e.target.value)}
           />
         </label>
-        {errors.email && <p className='error-message'>{errors.email}</p>}
+        {isSubmitted && errors.email && <p className='error-message'>{errors.email}</p>}
         
         <label>
           Username
@@ -77,7 +100,7 @@ function SignupFormModal() {
             onChange={(e) => setUsername(e.target.value)}
           />
         </label>
-        {errors.username && <p className='error-message'>{errors.username}</p>}
+        {isSubmitted && errors.username && <p className='error-message'>{errors.username}</p>}
         
         <label>
           First Name
@@ -87,7 +110,7 @@ function SignupFormModal() {
             onChange={(e) => setFirstName(e.target.value)}
           />
         </label>
-        {errors.firstName && <p className='error-message'>{errors.firstName}</p>}
+        {isSubmitted && errors.firstName && <p className='error-message'>{errors.firstName}</p>}
         
         <label>
           Last Name
@@ -97,7 +120,7 @@ function SignupFormModal() {
             onChange={(e) => setLastName(e.target.value)}
           />
         </label>
-        {errors.lastName && <p className='error-message'>{errors.lastName}</p>}
+        {isSubmitted && errors.lastName && <p className='error-message'>{errors.lastName}</p>}
         
         <label>
           Password
@@ -107,7 +130,7 @@ function SignupFormModal() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
-        {errors.password && <p className='error-message'>{errors.password}</p>}
+        {isSubmitted && errors.password && <p className='error-message'>{errors.password}</p>}
         
         <label>
           Confirm Password
@@ -117,12 +140,12 @@ function SignupFormModal() {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </label>
-        {errors.confirmPassword && <p className='error-message'>{errors.confirmPassword}</p>}
+        {isSubmitted && errors.confirmPassword && <p className='error-message'>{errors.confirmPassword}</p>}
         
         <button 
           type='submit' 
-          disabled={Object.keys(errors).length > 0}
-          className={Object.keys(errors).length > 0 ? 'disabled' : ''}
+          disabled={!isFormComplete} // Disabled if the form isn't complete
+          className={!isFormComplete ? 'disabled' : ''}
         >
           Sign Up
         </button>
