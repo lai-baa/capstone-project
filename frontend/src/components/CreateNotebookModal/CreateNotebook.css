@@ -11,7 +11,7 @@
 }
   
 .modal-heading {
-    margin-bottom: 20px;
+    margin-bottom: 30px !important;
     font-size: 24px;
 }
   
@@ -31,11 +31,11 @@
 }
   
 .ntbk-modal-input {
-    width: 96%;
+    width: 90%;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    margin-top: 5px;
+    margin-top: -15px;
 }
   
 .error-message {
