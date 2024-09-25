@@ -228,3 +228,20 @@ li {
     justify-content: center;
     margin-right: 20px;
 }
+
+/* Styling for the links in the profile dropdown */
+.dropdown-link {
+    text-decoration: underline;
+    color: black;
+    font-weight: bold;
+    padding: 0.125em 0;
+    cursor: pointer;
+    transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+.dropdown-link:hover {
+    color: #8e24aa;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    padding: 0.125em 0.5em;
+}
