@@ -5,6 +5,7 @@ import OpenModalMenuItem from './OpenModalMenuItem'
 import LoginFormModal from '../LoginFormModal/LoginFormModal';
 import SignupFormModal from "../SignupFormModal/SignupFormModal";
 import { useNavigate } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 import { useDispatch } from "react-redux";
 import { useEffect, useState, useRef } from "react";
@@ -45,15 +46,15 @@ const ProfileButton = ({user}) => {
         navigate('/');
     };
 
-    const handleManageFavoritesClick = () => {
-        closeMenu();
-        navigate('/favorites');
-    };
+    // const handleManageFavoritesClick = () => {
+    //     closeMenu();
+    //     navigate('/favorites');
+    // };
 
-    const handleRemindersClick = () => {
-        closeMenu();
-        navigate('/reminders');
-    };
+    // const handleRemindersClick = () => {
+    //     closeMenu();
+    //     navigate('/reminders');
+    // };
 
     const dropdownClasses = "profile-dropdown" + (showMenu ? "" : " hidden");
 
@@ -69,12 +70,12 @@ const ProfileButton = ({user}) => {
                         <li>Hello, {user.firstName}</li>
                         <li>{user.email}</li>
                         <hr />
-                        <button onClick={handleManageFavoritesClick} className="dropdown-button">Manage Favorites</button>
+                        <Link to="/favorites" onClick={closeMenu}>Favorites</Link>
                         <hr />
-                        <button onClick={handleRemindersClick} className="dropdown-button">Reminders</button>
+                        <Link to="/reminders" onClick={closeMenu}>Reminders</Link>
                         <hr />
                         <li id="logout">
-                            <button onClick={logoutClick} className="dropdown-button">Log Out</button>
+                            <button onClick={logoutClick}>Log Out</button>
                         </li>
                     </>
                 ) : (
