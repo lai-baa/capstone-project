@@ -69,10 +69,12 @@ const ProfileButton = ({user}) => {
                     <>
                         <li>Hello, {user.firstName}</li>
                         <li>{user.email}</li>
-                        <hr />
+                        {/* <hr />
                         <Link to="/favorites" onClick={closeMenu} className="dropdown-link">Favorites</Link>
                         <hr />
-                        <Link to="/reminders" onClick={closeMenu} className="dropdown-link">Reminders</Link>
+                        <Link to="/reminders" onClick={closeMenu} className="dropdown-link">Reminders</Link> */}
+                        <hr />
+                        <Link to="/favorites" onClick={closeMenu} className="dropdown-link">My Profile</Link>
                         <hr />
                         <li id="logout">
                             <button onClick={logoutClick}>Log Out</button>
