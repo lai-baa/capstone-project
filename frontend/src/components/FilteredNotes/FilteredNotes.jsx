@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import "./FilteredNotes.css";
 
+// debugging needed for filtered notes - filtered notes dont populate when search term is inputted and submitted
+
 function FilteredNotes() {
     const filteredNotes = useSelector((state) => state.notes.filtered || []);
     const navigate = useNavigate();
