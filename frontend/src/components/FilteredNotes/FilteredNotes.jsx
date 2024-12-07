@@ -34,6 +34,7 @@ function FilteredNotes() {
                         >
                             <h2>{note.title}</h2>
                             <p>{note.description}</p>
+                            <p>{note.updatedAt}</p>
                         </li>
                     ))}
                 </ul>
