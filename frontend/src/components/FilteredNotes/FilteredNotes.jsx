@@ -7,6 +7,9 @@ import "./FilteredNotes.css";
 
 function FilteredNotes() {
     const filteredNotes = useSelector((state) => state.notes.filtered || []);
+
+    console.log("Filtered Notes in Redux State:", filteredNotes);
+
     const navigate = useNavigate();
 
     // Debug filteredNotes to ensure it changes when navigating
